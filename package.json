@@ -14,8 +14,10 @@
     "@nuxtjs/composition-api": "^0.17.0",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
+    "node-gyp": "^7.1.2",
     "nuxt": "^2.14.6",
-    "vue-lodash": "^2.1.2"
+    "vue-lodash": "^2.1.2",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",
