@@ -23,6 +23,8 @@ export default {
   plugins: [
     { src: '~plugins/global-components.js' },
     { src: '~plugins/plugins.js' },
+    { src: '~plugins/fontAwesome.js' },
+    { src: '~plugins/swiper.js' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
