@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import headerMenu from '@/components/header.vue'
-import sideMenu from '~/components/side-menu'
+import headerMenu from '~/components/ui/header.vue'
+import sideMenu from '~/components/ui/side-menu'
 
 export {
   defineComponent, onMounted, onBeforeMount, ref, reactive, toRefs, computed, watch
