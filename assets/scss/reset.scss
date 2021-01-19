@@ -1,0 +1,108 @@
+//reset
+*{
+  font:16px 'NanumSquareRound', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-weight: 800;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button, span, em {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.42857;
+}
+
+fieldset, img {
+  border: 0 none;
+  vertical-align: top;
+}
+
+dl, ul, ol, menu, li {
+  list-style: none;
+}
+
+a {
+  color: #000;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none;
+}
+
+input, select, textarea, button {
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+body {
+  background: #fff;
+  -webkit-text-size-adjust: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+body, th, td, input, select, textarea, button, div, li, span, p, select, textarea, input, button {
+  line-height: 1.42857;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:active, a:hover {
+  text-decoration: none;
+}
+
+button, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'] {
+  -webkit-appearance: button;
+  border-radius: 0;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+address, caption, cite, code, dfn, em, var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+caption {
+  display: none;
+  visibility: hidden;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+h1, h2, h3, h4, h5, h6, strong {
+  font-weight: normal;
+}
+
+button {
+  border: 0;
+}
