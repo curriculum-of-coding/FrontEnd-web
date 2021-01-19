@@ -2,7 +2,8 @@
   <div class="main_page">
     <header-menu :header-title="headerItems"
                  :main-page-show="true"></header-menu>
-    <tab-menu :tabItems="tabItem"/>
+    <tab-menu :tabItems="tabItem"
+              :main-page-show="true"/>
 
   </div>
 </template>

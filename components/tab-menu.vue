@@ -9,7 +9,7 @@
         </span>
       </li>
     </ul>
-    <div class="new_update">최근 업데이트 : 2021.01.05 23:23:13</div>
+    <div  v-if="mainPageShow" class="new_update">최근 업데이트 : 2021.01.05 23:23:13</div>
   </div>
 </template>
 
@@ -19,6 +19,14 @@ export default {
   props: {
     tabItems: {
       type: Array,
+    },
+    mainPageShow:{
+      type:Boolean,
+      default() {
+        return {
+          mainPageShow: true,
+        };
+      },
     }
   },
   data() {
