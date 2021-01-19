@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 #header_wrap{
-  padding: 20px;
+  padding: 20px 20px 20px 0;
   display: flex;
   justify-content: space-between;
   .header_contents {

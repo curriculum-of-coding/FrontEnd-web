@@ -4,13 +4,14 @@
                  :main-page-show="true"></header-menu>
     <tab-menu :tabItems="tabItem"
               :main-page-show="true"/>
-
+    <curriculum-title></curriculum-title>
   </div>
 </template>
 
-<script lang="ts">
-import tabMenu from "@/components/tab-menu"
-import headerMenu from '@/components/header'
+<script >
+import tabMenu from "@/components/tab-menu.vue"
+import headerMenu from '@/components/header.vue'
+import curriculumTitle from '@/components/curriculum-title.vue'
 
 export default {
   data() {
@@ -28,13 +29,14 @@ export default {
   },
   components: {
     tabMenu,
-    headerMenu
+    headerMenu,
+    curriculumTitle
   }
 }
 </script>
 <style lang="scss">
 .main_page {
-  padding:0 0 0 50px;
+  padding: 0 0 0 50px;
   width: 100%;
 }
 </style>

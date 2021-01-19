@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script >
 export default {
   name: "tab-menu",
   props: {
@@ -74,7 +74,8 @@ export default {
       font-weight: 300;
       span {
         cursor: pointer;
-        padding: 24.5px 20px;
+        font-size: 20px;
+        padding: 24px 20px;
       }
     }
   }
