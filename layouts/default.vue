@@ -1,27 +1,55 @@
 <template>
   <div class="main">
-    <side-menu/>
-    <Nuxt/>
+    <sideMenu></sideMenu>
+    <div class="content_wrap">
+      <header>
+        <header-menu :header-title="headerItems"
+                     :main-page-show="true">
+        </header-menu>
+      </header>
+      <div class="content">
+        <Nuxt></Nuxt>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import headerMenu from '@/components/header.vue'
+import sideMenu from '~/components/side-menu'
+
 export {
   defineComponent, onMounted, onBeforeMount, ref, reactive, toRefs, computed, watch
 } from '@vue/composition-api'
-import sideMenu from '@/layouts/side-menu'
 
 export default {
   data() {
-    return {}
+    return {
+      headerItems: [
+        {title: '커리큘럼', subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.'}
+      ]
+    }
   },
   components: {
     sideMenu,
+    headerMenu,
   }
 }
 </script>
 <style lang="scss">
-.main{
+.content, header {
+  padding-left: 50px;
+}
+
+.content {
+}
+
+.content_wrap {
+  width: calc(100% - 163px);
+}
+
+.main {
   display: flex;
+  justify-content: space-between;
 }
 </style>

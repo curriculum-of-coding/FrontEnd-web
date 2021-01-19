@@ -60,6 +60,7 @@ export default {
     font-size: 16px;
     color: #B6B6B6;
     width: 20%;
+    text-align: center;
   }
 
   .tab_menu_contents {
