@@ -1,6 +1,15 @@
-import colors from 'vuetify/es5/util/colors'
+import { Configuration } from '@nuxt/types'
+const config: Configuration = {
+  css: [
+    'swiper/dist/css/swiper.css',
+  ],
 
+  plugins: [
+    { src: '~plugins/vue-awesome-swiper', ssr: false },
+  ],
+}
 export default {
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - side-project',
@@ -21,8 +30,10 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '~plugins/global-components.js' },
-    { src: '~plugins/plugins.js' },
+    { src: '~plugins/global-components.ts' },
+    { src: '~plugins/plugins.ts' },
+    { src: '~plugins/fontAwesome.ts' },
+    { src: '~plugins/swiper.js' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -46,25 +57,6 @@ export default {
     proxyHeaders: false,
     credentials: false,
   },
-  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
-  },
-
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   }
