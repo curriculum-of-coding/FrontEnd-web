@@ -16,11 +16,12 @@
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/axios": "^5.12.4",
     "@nuxtjs/composition-api": "^0.17.0",
+    "@types/lodash": "^4.14.168",
     "add": "^2.0.6",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.6",
-    "swiper": "5.x",
+    "swiper": "^5.4.5",
     "vue-awesome-swiper": "^4.1.1",
     "vue-lodash": "^2.1.2",
     "yarn": "^1.22.10"

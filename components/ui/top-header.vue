@@ -13,7 +13,7 @@
 
 <script lang="ts">
 export default {
-  name: "header",
+  name: "top-header",
   props:{
     headerTitle:{
       type:Array
@@ -55,7 +55,7 @@ export default {
     }
   }
   .btn_wrap{
-    margin-right: 50px;
+    margin-right: 44px;
     .login{
       color: #0D0D0D;
       background: #F0F0F0;

@@ -2,11 +2,11 @@
   <div class="main">
     <sideMenu></sideMenu>
     <div class="content_wrap">
-      <header>
+      <div class="header">
         <header-menu :header-title="headerItems"
                      :main-page-show="true">
         </header-menu>
-      </header>
+      </div>
       <div class="content">
         <Nuxt></Nuxt>
       </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import headerMenu from '~/components/ui/header.vue'
+import headerMenu from '~/components/ui/top-header.vue'
 import sideMenu from '~/components/ui/side-menu'
 
 export {
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.content, header {
+.content,.header {
   padding-left: 50px;
 }
 

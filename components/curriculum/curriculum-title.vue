@@ -1,21 +1,23 @@
 <template>
   <div id="curriculum_title_wrap">
-    <div class="title_content">
-      <span class="curriculum_maker_title">
-        현직 Front-end 개발자
-        <span class="border_title">마루</span>
+    <div class="title_content" >
+      <div class="curriculum_maker_title">
+        <span class="curriculum_maker_title" v-if="curriculumMaker[0].field==='FE'">현직 Front-end 개발자</span>
+        <span class="curriculum_maker_title" v-else-if="curriculumMaker[0].field==='BE'">현직 Back-end 개발자</span>
+        <span class="curriculum_maker_title" v-else>현직 Dev-ops 개발자</span>
+        <span class="border_title">{{ curriculumMaker[0].userName }}</span>
         님의 커리큘럼
-      </span>
+      </div>
       <div class="icon_wrap">
         <font-awesome-icon icon="thumbs-up" class="icon_up_down"/>
-        <span class="counting">1</span>
+        <span class="counting">{{ curriculumMaker[0].like }}</span>
         <font-awesome-icon icon="thumbs-down" class="icon_up_down"/>
-        <span class="counting">42342</span>
+        <span class="counting">{{ curriculumMaker[0].hate }}</span>
       </div>
 
     </div>
     <div class="link_wrap ">
-      <span>모든 Front-end 커리큘럼 보러가기</span>
+      <span>{{curriculumMaker[0].userName}}님의 커리큘럼 보러가기</span>
       <font-awesome-icon icon="chevron-right"/>
     </div>
   </div>
@@ -23,7 +25,10 @@
 
 <script>
 export default {
-  name: "curriculum-title"
+  name: "curriculum-title",
+  props: {
+    curriculumMaker: Array
+  }
 }
 </script>
 
@@ -32,7 +37,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-top: 60px;
-  padding-right: 30px;
+  padding-right: 50px;
 
   .title_content {
     align-items: center;
@@ -75,7 +80,9 @@ export default {
     justify-content: center;
     align-items: center;
     color: #F64E5B;
-    span{
+
+    span {
+      cursor: pointer;
       padding-right: 5px;
     }
   }
