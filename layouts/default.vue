@@ -1,8 +1,8 @@
 <template>
-  <div class="main" v-if="!/user-.*/.exec($route.name)">
+  <div class="main">
     <sideMenu></sideMenu>
     <div class="content_wrap">
-      <div class="header">
+      <div class="header" v-if="!/user-.*/.exec($route.name)">
         <header-menu :header-title="headerItems"
                      :main-page-show="true">
         </header-menu>
