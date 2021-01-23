@@ -92,3 +92,5 @@ sw.*
 
 #pack-lock.json
 package-lock.json
+
+.vscode
