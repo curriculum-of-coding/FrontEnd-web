@@ -1,5 +1,5 @@
 <template>
-  <div class="side-menu">
+  <div class="side-menu" v-if="!/user-.*/.exec($route.name)">
     <div class="main-side">
       <div class="logo">
         LOGO
@@ -153,7 +153,7 @@ export default {
     const onCloseSubSide = () => {
       isClosedSubmenu.value = true
     }
-    
+
     return {
       menuList,
       onClickMenuButton,
@@ -182,7 +182,7 @@ export default {
       font-size: 24px;
       color: white;
     }
-    
+
     .menu-list {
       margin: {
         top: 53px;
@@ -209,7 +209,7 @@ export default {
             background-color: #F64E5B;
             color: white;
           }
-          
+
           .icon-btn-menu {
             margin-left: 20px;
             width: 18px;

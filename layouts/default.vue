@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="!/user-.*/.exec($route.name)">
     <sideMenu></sideMenu>
     <div class="content_wrap">
       <div class="header">

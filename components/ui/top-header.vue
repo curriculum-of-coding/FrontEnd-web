@@ -5,8 +5,8 @@
       <dd>{{headerTitle.subTitle}}</dd>
     </dl>
     <div class="btn_wrap" v-if="mainPageShow">
-      <button class="login">로그인</button>
-      <button class="sign_up">회원가입</button>
+      <button class="login" onclick="location.href='/user/login'">로그인</button>
+      <button class="sign_up" onclick="location.href='/user/signup'">회원가입</button>
     </div>
   </div>
 </template>
