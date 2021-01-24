@@ -1,5 +1,5 @@
 <template>
-  <div class="side-menu" v-if="!/user-.*/.exec($route.name)">
+  <div class="side-menu">
     <div class="main-side">
       <div class="logo">
         LOGO
