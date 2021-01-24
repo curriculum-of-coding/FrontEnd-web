@@ -55,7 +55,6 @@
 </template>
 
 <script lang="ts">
-import setMenu from '@/store/setMenuTitle'
 import {Ref, ref, set, computed, useContext} from '@nuxtjs/composition-api'
 import {Route} from 'vue-router/types/router'
 
