@@ -55,6 +55,7 @@
 </template>
 
 <script lang="ts">
+import setMenu from '@/store/setMenuTitle'
 import {Ref, ref, set, computed, useContext} from '@nuxtjs/composition-api'
 import {Route} from 'vue-router/types/router'
 
@@ -67,7 +68,6 @@ const deepAddActiveToMenu = (menu: Menu) => {
   })
 }
 const findRoutePathInMenuAndActive = (menu: Menu, path: string) => {
-  console.log('[findRoutePathInMenuAndActive] menu.url, path', menu.url, path)
   menu.active = false
   let active = false
   if (menu.submenu) {
@@ -80,26 +80,28 @@ const findRoutePathInMenuAndActive = (menu: Menu, path: string) => {
 
 export default {
   //메인메뉴
-    // icon: ['far', 'thumbs-up'], 선택
-    // name: '추천강의', 필수
-    // subTitle:'위마루씨가 추천하는 강의추천 추천강의는 추천강의입니다', 선택
-    // url: '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★', 필수
-    // active: false, 필수
+  // icon: ['far', 'thumbs-up'], 선택
+  // name: '추천강의', 필수
+  // subTitle:'위마루씨가 추천하는 강의추천 추천강의는 추천강의입니다', 선택
+  // url: '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★', 필수
+  // active: false, 필수
   //서브메뉴
-    // submenu: [
-    //   {
-    //     name: '공지사항',  필수
-    //     url: '/board/notice', 필수
-    //     subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 커리큘럼', 선택
-    //   }
-    // ]
+  // submenu: [
+  //   {
+  //     name: '공지사항',  필수
+  //     url: '/board/notice', 필수
+  //     subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 커리큘럼', 선택
+  //   }
+  // ]
   name: "side-menu",
   setup() {
     const {route} = useContext()
+    const {state, setMenuTitle} = setMenu
     const originMenuList = [
       {
         icon: 'home',
-        name: '메인',
+        name: '커리큘럼',
+        subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
         url: '/',
         active: false,
       },
@@ -112,7 +114,7 @@ export default {
       },
       {
         icon: 'book-open',
-        name: '커리큘럼',
+        name: '커리큘럼1',
         url: '/curriculum',
         subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 슬라이드',
         active: false,
@@ -121,6 +123,7 @@ export default {
         icon: 'chalkboard',
         name: '게시판',
         url: '/board/notice',
+        subTitle: '게시판 메인입니다',
         active: false,
         submenu: [
           {
@@ -131,6 +134,7 @@ export default {
           {
             name: 'Front-end',
             url: '/board/fe',
+            subTitle: '프론트앤드 게시판',
             submenu: [
               {
                 name: '자유게시판',
@@ -158,11 +162,10 @@ export default {
     originMenuList.forEach(menu => {
       findRoutePathInMenuAndActive(menu, route.value.path)
     })
-
     const menuList: Ref<Menu[]> = ref(originMenuList)
 
     const onClickMenuButton = (menu: Menu) => {
-      console.log('[onClickMenuButton] menu', menu)
+      setMenuTitle(menu)
       isClosedSubmenu.value = false
       menuList.value.forEach(otherMenu => {
         findRoutePathInMenuAndActive(otherMenu, menu.url)
@@ -184,6 +187,8 @@ export default {
       hasSubMenu,
       isClosedSubmenu,
       onCloseSubSide,
+      state,
+      setMenuTitle
     }
   },
 }
