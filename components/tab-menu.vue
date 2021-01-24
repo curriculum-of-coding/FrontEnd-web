@@ -13,14 +13,17 @@
 			</ul>
 		</div>
 		<div>
-			<div v-if="mainPageShow" class="new_update">
+			<div v-if="showIsMain" class="new_update">
 				최근 업데이트 : 2021.01.05 23:23:13
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import { computed } from '@nuxtjs/composition-api';
+import tabMenu from '@/types/menu';
+
 export default {
 	name: 'tab-menu',
 	props: {
@@ -36,15 +39,16 @@ export default {
 			},
 		},
 	},
-	data() {
-		return {};
-	},
-	methods: {
-		setItemsFiled(tabName) {
-			this.tabItems.forEach(v => {
+	setup(props) {
+		const setItemsFiled = (tabName:tabMenu) => {
+			props.tabItems.forEach(v => {
 				v.active = v.name === tabName;
 			});
-		},
+		};
+		const showIsMain = computed(() => {
+			return props.mainPageShow;
+		});
+		return { setItemsFiled, showIsMain };
 	},
 };
 </script>
