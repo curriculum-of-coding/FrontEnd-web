@@ -39,9 +39,9 @@ export default {
 			},
 		},
 	},
-	setup(props) {
-		const setItemsFiled = (tabName:tabMenu) => {
-			props.tabItems.forEach(v => {
+	setup(props:any){
+		const setItemsFiled = (tabName:string) => {
+			props.tabItems.forEach((v:tabMenu) => {
 				v.active = v.name === tabName;
 			});
 		};
