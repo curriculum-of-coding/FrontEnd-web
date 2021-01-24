@@ -1,8 +1,8 @@
 <template>
   <div id="header_wrap">
-    <dl v-for="headerTitle in headerTitle" class="header_contents">
-      <dt>{{state.menuTitle.name}}</dt>
-      <dd>{{state.menuTitle.subTitle}}</dd>
+    <dl v-for="headerTitle in headerTitle" class="header_contents" :key="headerTitle">
+      <dt>{{menuTitle.name}}</dt>
+      <dd>{{menuTitle.subTitle}}</dd>
     </dl>
     <div class="btn_wrap" v-if="mainPageShow">
       <button class="login">로그인</button>
@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts">
-import setMenu from '@/store/setMenuTitle.ts'
-import {Ref, ref, set, computed, useContext} from '@nuxtjs/composition-api'
+import { computed, useContext } from '@nuxtjs/composition-api'
 export default {
   name: "top-header",
   props:{
@@ -30,9 +29,10 @@ export default {
     }
   },
   setup(){
-    const {state, setMenuTitle} = setMenu
+    const { store } = useContext()
+    const menuTitle = computed(() => store.state.menuTitle)
     return {
-      state, setMenuTitle
+      menuTitle,
     }
   },
   data(){

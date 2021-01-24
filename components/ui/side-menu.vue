@@ -95,8 +95,11 @@ export default {
   // ]
   name: "side-menu",
   setup() {
-    const {route} = useContext()
-    const {state, setMenuTitle} = setMenu
+    const {route, store} = useContext()
+    const menuTitle = computed(() => store.state.menuTitle)
+    const setMenuTitle = (menuTitle: any) => {
+      store.commit('setMenuTitle', menuTitle)
+    }
     const originMenuList = [
       {
         icon: 'home',
@@ -187,7 +190,7 @@ export default {
       hasSubMenu,
       isClosedSubmenu,
       onCloseSubSide,
-      state,
+      menuTitle,
       setMenuTitle
     }
   },
