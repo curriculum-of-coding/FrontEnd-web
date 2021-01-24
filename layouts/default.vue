@@ -1,10 +1,12 @@
 <template>
   <div class="main">
-    <sideMenu></sideMenu>
+    <sideMenu v-if="!checkMainPage"></sideMenu>
     <div class="content_wrap">
-      <div class="header" v-if="!/user-.*/.exec($route.name)">
-        <header-menu :header-title="headerItems"
-                     :main-page-show="true">
+      <div class="header">
+        <header-menu
+          v-if="!checkMainPage"
+          :header-title="headerItems"
+          :main-page-show="true">
         </header-menu>
       </div>
       <div class="content">
@@ -30,6 +32,11 @@ export default {
       ]
     }
   },
+  computed: {
+    checkMainPage() {
+      return this.$route.name === 'user-login' || this.$route.name === 'user-signup';
+    }
+  },
   components: {
     sideMenu,
     headerMenu,
@@ -37,7 +44,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.content,.header {
+.content, .header {
   padding-left: 50px;
 }
 
