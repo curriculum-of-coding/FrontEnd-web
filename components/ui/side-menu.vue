@@ -12,7 +12,7 @@
               active: menu.active,
             }"
             :to="menu.url"
-             @click.native="onClickMenuButton(menu)"
+            @click.native="onClickMenuButton(menu)"
           >
             <font-awesome-icon class="icon-btn-menu" :icon="menu.icon"/>
             <span class="menu-name">{{ menu.name }}</span>
@@ -26,7 +26,8 @@
                 }"
                 :to="submenu.url"
                 @click.native="onClickMenuButton(submenu)"
-              >{{ submenu.name }}</nuxt-link>
+              >{{ submenu.name }}
+              </nuxt-link>
               <div class="sub-sub-menu">
                 <div class="name" v-for="subsubmenu in submenu.submenu" :key="subsubmenu.name">
                   <nuxt-link
@@ -36,7 +37,8 @@
                     }"
                     :to="subsubmenu.url"
                     @click.native="onClickMenuButton(subsubmenu)"
-                  >{{ subsubmenu.name }}</nuxt-link>
+                  >{{ subsubmenu.name }}
+                  </nuxt-link>
                 </div>
               </div>
             </div>
@@ -53,14 +55,16 @@
 </template>
 
 <script lang="ts">
-import { Ref, ref, set, computed, useContext } from '@nuxtjs/composition-api'
-import { Route } from 'vue-router/types/router'
+import {Ref, ref, set, computed, useContext} from '@nuxtjs/composition-api'
+import {Route} from 'vue-router/types/router'
 
 import Menu from '@/types/menu'
 
 const deepAddActiveToMenu = (menu: Menu) => {
   menu.active = false
-  if (menu.submenu) menu.submenu.forEach((submenu) => { deepAddActiveToMenu(submenu) })
+  if (menu.submenu) menu.submenu.forEach((submenu) => {
+    deepAddActiveToMenu(submenu)
+  })
 }
 const findRoutePathInMenuAndActive = (menu: Menu, path: string) => {
   console.log('[findRoutePathInMenuAndActive] menu.url, path', menu.url, path)
@@ -75,9 +79,23 @@ const findRoutePathInMenuAndActive = (menu: Menu, path: string) => {
 }
 
 export default {
+  //메인메뉴
+    // icon: ['far', 'thumbs-up'], 선택
+    // name: '추천강의', 필수
+    // subTitle:'위마루씨가 추천하는 강의추천 추천강의는 추천강의입니다', 선택
+    // url: '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★', 필수
+    // active: false, 필수
+  //서브메뉴
+    // submenu: [
+    //   {
+    //     name: '공지사항',  필수
+    //     url: '/board/notice', 필수
+    //     subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 커리큘럼', 선택
+    //   }
+    // ]
   name: "side-menu",
-  setup () {
-    const { route } = useContext()
+  setup() {
+    const {route} = useContext()
     const originMenuList = [
       {
         icon: 'home',
@@ -88,6 +106,7 @@ export default {
       {
         icon: ['far', 'thumbs-up'],
         name: '추천강의',
+        subTitle: '위마루씨가 추천하는 강의추천 추천강의는 추천강의입니다',
         url: '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★',
         active: false,
       },
@@ -95,6 +114,7 @@ export default {
         icon: 'book-open',
         name: '커리큘럼',
         url: '/curriculum',
+        subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 슬라이드',
         active: false,
       },
       {
@@ -106,6 +126,7 @@ export default {
           {
             name: '공지사항',
             url: '/board/notice',
+            subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 커리큘럼',
           },
           {
             name: 'Front-end',
@@ -114,14 +135,17 @@ export default {
               {
                 name: '자유게시판',
                 url: '/board/fe/free',
+                subTitle: '위마루씨가 상주하고있는 자유게시판',
               },
               {
                 name: '질문과 답글',
                 url: '/board/fe/qa',
+                subTitle: '위마루씨가 상주하고있는 질문과 답글',
               },
               {
                 name: '커리큘럼',
                 url: '/board/fe/curriculum',
+                subTitle: '위마루씨가 상주하고있는 커리큘럼 게시판',
               },
             ]
           }
@@ -153,7 +177,7 @@ export default {
     const onCloseSubSide = () => {
       isClosedSubmenu.value = true
     }
-    
+
     return {
       menuList,
       onClickMenuButton,
@@ -182,11 +206,12 @@ export default {
       font-size: 24px;
       color: white;
     }
-    
+
     .menu-list {
       margin: {
         top: 53px;
       }
+
       .menu-area {
         display: inline-flex;
         position: relative;
@@ -205,15 +230,16 @@ export default {
           border-radius: 20px;
           z-index: 1;
 
-          &.active,&:hover {
+          &.active, &:hover {
             background-color: #F64E5B;
             color: white;
           }
-          
+
           .icon-btn-menu {
             margin-left: 20px;
             width: 18px;
           }
+
           .menu-name {
             margin-left: 13px;
             font-weight: normal;
@@ -222,6 +248,7 @@ export default {
           }
         }
       }
+
       .sub-menu-area {
         position: absolute;
         left: 205px;
@@ -233,7 +260,7 @@ export default {
             margin-top: 38px;
           }
 
-          &>.name {
+          & > .name {
             color: #354151;
             font-size: 18px;
             font-weight: bold;
@@ -242,9 +269,11 @@ export default {
               color: #F64E5B;
             }
           }
+
           .sub-sub-menu {
             margin-left: 15px;
-            &>.name {
+
+            & > .name {
               margin-top: 27px;
 
               .name-link {
@@ -262,6 +291,7 @@ export default {
       }
     }
   }
+
   .sub-side {
     background-color: #f6f6f6;
     width: 185px;
