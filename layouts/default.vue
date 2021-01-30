@@ -17,12 +17,8 @@
 </template>
 
 <script>
-import headerMenu from '~/components/ui/top-header.vue'
-import sideMenu from '~/components/ui/side-menu'
-
-export {
-  defineComponent, onMounted, onBeforeMount, ref, reactive, toRefs, computed, watch
-} from '@vue/composition-api'
+import headerMenu from '~/components/ui/top-header.vue';
+import sideMenu from '~/components/ui/side-menu';
 
 export default {
   data() {
@@ -52,11 +48,11 @@ export default {
 }
 
 .content_wrap {
-  width: calc(100% - 163px);
+	width: calc(100% - 163px);
 }
 
 .main {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 </style>
