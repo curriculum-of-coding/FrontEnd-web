@@ -34,9 +34,6 @@ export default {
 		curriculumContentView: String,
 		curriculumContentLike: String,
 	},
-	data() {
-		return {};
-	},
 };
 </script>
 

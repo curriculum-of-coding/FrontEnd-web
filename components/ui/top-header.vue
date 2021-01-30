@@ -3,7 +3,7 @@
 		<dl
 			v-for="headerTitle in headerTitle"
 			class="header_contents"
-			:key="headerTitle"
+			:key="headerTitle.name"
 		>
 			<dt>{{ menuTitle.name }}</dt>
 			<dd>{{ menuTitle.subTitle }}</dd>
@@ -37,11 +37,6 @@ export default {
 		const menuTitle = computed(() => store.state.menuTitle);
 		return {
 			menuTitle,
-		};
-	},
-	data() {
-		return {
-			mainPage: true,
 		};
 	},
 };
