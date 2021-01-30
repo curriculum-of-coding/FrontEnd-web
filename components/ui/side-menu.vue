@@ -199,7 +199,8 @@ export default {
 <style lang="scss" scoped>
 .side-menu {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 
   .main-side {
     width: 163px;
