@@ -1,10 +1,12 @@
 <template>
   <div class="main">
-    <sideMenu></sideMenu>
+    <sideMenu v-if="!checkMainPage"></sideMenu>
     <div class="content_wrap">
-      <div class="header" v-if="!/user-.*/.exec($route.name)">
-        <header-menu :header-title="headerItems"
-                     :main-page-show="true">
+      <div class="header">
+        <header-menu
+          v-if="!checkMainPage"
+          :header-title="headerItems"
+          :main-page-show="true">
         </header-menu>
       </div>
       <div class="content">
@@ -15,12 +17,8 @@
 </template>
 
 <script>
-import headerMenu from '~/components/ui/top-header.vue'
-import sideMenu from '~/components/ui/side-menu'
-
-export {
-  defineComponent, onMounted, onBeforeMount, ref, reactive, toRefs, computed, watch
-} from '@vue/composition-api'
+import headerMenu from '~/components/ui/top-header.vue';
+import sideMenu from '~/components/ui/side-menu';
 
 export default {
   data() {
@@ -30,6 +28,11 @@ export default {
       ]
     }
   },
+  computed: {
+    checkMainPage() {
+      return this.$route.name === 'user-login' || this.$route.name === 'user-signup';
+    }
+  },
   components: {
     sideMenu,
     headerMenu,
@@ -37,7 +40,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.content,.header {
+.content, .header {
   padding-left: 50px;
 }
 
@@ -45,11 +48,11 @@ export default {
 }
 
 .content_wrap {
-  width: calc(100% - 163px);
+	width: calc(100% - 163px);
 }
 
 .main {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 </style>
