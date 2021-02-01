@@ -53,12 +53,11 @@
 					</span>
 					<span class="checkbox_value">
 						<span>{{ items.id }}</span>
-						<span @click="openModal">sadsad</span>
+						<span @click="openModal">{{ items.contentType }}</span>
 					</span>
 				</label>
 			</div>
 		</div>
-		<commonModal :dialog="openModalCheck"></commonModal>
 	</div>
 </template>
 
@@ -122,6 +121,7 @@ export default {
 		display: flex;
 		align-items: center;
 		color: #fff;
+		margin-bottom: 16px;
 		margin-right: 10px;
 
 		&--disabled {
@@ -174,6 +174,7 @@ export default {
 .checkbox_value {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	color: #000 !important;
 }

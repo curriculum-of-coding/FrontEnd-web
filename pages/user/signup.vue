@@ -47,6 +47,12 @@
           :headerTitle="'관심분야'"
         ></customCheckBox>
       </div>
+      <div class='input_area term_use' >
+        <customCheckBoxSignUp
+          :checkBoxArray='checkBoxItemsSignUp'
+          :column=true
+        ></customCheckBoxSignUp>
+      </div>
       <button type='submit' class='signup_btn'>회원가입</button>
     </div>
   </form>
@@ -56,6 +62,7 @@
 import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
+import customCheckBoxSignUp from '@/components/common/common-checkbox-signup.vue';
 import { reactive } from '@nuxtjs/composition-api';
 import signUp from '~/types/signup/signup';
 import interCheckbox from '~/types/signup/interCheckbox';
@@ -70,6 +77,7 @@ export default {
     customSelectBox,
     customInput,
     customCheckBox,
+    customCheckBoxSignUp
   },
   setup() {
     const passwordSelect: passwordSelect[] = [
@@ -198,7 +206,9 @@ body {
       opacity: 1;
     }
   }
-
+.term_use{
+  margin-top: 25px;
+}
   .signup_btn {
     margin-top: 20px;
     width: 100%;
