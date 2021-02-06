@@ -53,6 +53,10 @@
           :column=true
         ></customCheckBoxSignUp>
       </div>
+      <div>
+        <customModal>
+        </customModal>
+      </div>
       <button type='submit' class='signup_btn'>회원가입</button>
     </div>
   </form>
@@ -63,6 +67,7 @@ import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 import customCheckBoxSignUp from '@/components/common/common-checkbox-signup.vue';
+import customModal from '@/components/common/common-modal.vue';
 import { reactive } from '@nuxtjs/composition-api';
 import signUp from '~/types/signup/signup';
 import interCheckbox from '~/types/signup/interCheckbox';
@@ -77,7 +82,8 @@ export default {
     customSelectBox,
     customInput,
     customCheckBox,
-    customCheckBoxSignUp
+    customCheckBoxSignUp,
+    customModal,
   },
   setup() {
     const passwordSelect: passwordSelect[] = [
