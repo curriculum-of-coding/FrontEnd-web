@@ -9,6 +9,7 @@ import {
   faPlay,
   faHeart,
   faHome,
+  faTimes,
   faBookOpen,
   faChalkboard,
 } from '@fortawesome/free-solid-svg-icons'
@@ -23,6 +24,7 @@ library.add(
   faPlay,
   faHeart,
   faHome,
+  faTimes,
   farThumbsUp,
   faBookOpen,
   faChalkboard,
