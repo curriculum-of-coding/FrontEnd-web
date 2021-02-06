@@ -2,9 +2,7 @@
   <article class="curriculum-index">
     <h2>INDEX</h2>
     <ol class="curriculum-list">
-      <li v-for="(item, index) in list" :key="item">
-        {{index}}. {{ item }}
-      </li>
+      <li v-for="(item, index) in list" :key="item">{{ index }}. {{ item }}</li>
     </ol>
   </article>
 </template>
@@ -15,9 +13,9 @@ export default {
     list: {
       type: Array,
       required: true,
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -28,7 +26,7 @@ export default {
     font-size: 24px;
     font-weight: bolder;
     letter-spacing: -1.2px;
-    color: #0D0D0D;
+    color: #0d0d0d;
     margin: {
       bottom: 27px;
     }

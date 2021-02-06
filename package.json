@@ -6,7 +6,8 @@
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
-    "generate": "nuxt-ts generate"
+    "generate": "nuxt-ts generate",
+    "lint": "eslint ./ --ext .vue --ext .ts --ext .js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -19,24 +20,27 @@
     "@types/lodash": "^4.14.168",
     "add": "^2.0.6",
     "core-js": "^3.6.5",
-    "eslint": "^7.18.0",
+    "eslint": "^7.0.0",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.5.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^7.0.0",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.6",
     "swiper": "^5.4.5",
     "vue-awesome-swiper": "^4.1.1",
     "vue-lodash": "^2.1.2",
-    "yarn": "^1.22.10",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",
     "@nuxt/typescript-build": "^2.0.3",
-    "@nuxtjs/vuetify": "^1.11.2"
+    "@nuxtjs/vuetify": "^1.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "@vue/eslint-config-typescript": "7.0.0"
   }
 }

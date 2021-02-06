@@ -1,13 +1,11 @@
 type tabMenu = {
-  props?:[object,boolean],
-  tabName?:string,
-  name?:string,
-  active?:boolean
-
-}
+  props?: [object, boolean];
+  tabName?: string;
+  name?: string;
+  active?: boolean;
+};
 type tabName = {
-  tabName:string
-}
+  tabName: string;
+};
 
-
-export default tabMenu
+export default tabMenu;

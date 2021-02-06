@@ -1,56 +1,106 @@
 <template>
   <div class="curriculum-comment">
     <div class="comment-header">
-      <span>댓글 2</span>
-      <font-awesome-icon icon="thumbs-up"/> 123
-      <font-awesome-icon icon="thumbs-down"/> 20
+      <span class="comment-text">댓글 2</span>
+      <span class="thumbs-up"><font-awesome-icon icon="thumbs-up" /> 123</span>
+      <span class="thumbs-down">
+        <font-awesome-icon icon="thumbs-down" /> 20
+      </span>
     </div>
     <div class="comment-input">
-      <input type="text" placeholder="댓글을 입력하세요.">
+      <input type="text" placeholder="댓글을 입력하세요." />
     </div>
     <div class="comment-list">
-      <div class="comment">
-        <div class="comment-header">
-          <span class="comment-writer">댓글 작성자</span>
-          <span class="comment-write-date">YYYY.MM.DD hh:mm:ss</span>
-        </div>
-        <div class="comment-contents">
-          댓글내용입니다.
-        </div>
-      </div>
+      <Comment
+        v-for="(comment, i) in comments"
+        :writer="comment.writer"
+        :write-date="comment.writeDate"
+        :contents="comment.contents"
+        :replys="comment.replys"
+        :key="i"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from '@nuxtjs/composition-api'
+import { ref } from '@nuxtjs/composition-api';
+
+import Comment from '@/components/comment.vue';
+
 export default {
+  components: {
+    Comment,
+  },
   setup() {
     const comments = ref([
       {
-        wrtier: '모여봐요퇴근의숲',
+        writer: '모여봐요퇴근의숲',
         writeDate: Date.now(),
         contents: '비밀 댓글입니다.',
       },
       {
-        wrtier: '늦잠',
+        writer: '늦잠',
         writeDate: Date.now(),
         contents: '비밀 댓글입니다.',
-        reply: [
+        replys: [
           {
-            wrtier: '늦잠',
+            writer: '마루',
             writeDate: Date.now(),
             contents: '비밀 댓글입니다.',
-          }
-        ]
+            replys: [
+              {
+                writer: 'Leth',
+                writeDate: Date.now(),
+                contents: 'ㅋㅋㅋㅋㅋㅋ',
+                replys: [
+                  {
+                    writer: '늦잠',
+                    writeDate: Date.now(),
+                    contents: '비밀 댓글입니다.',
+                    replys: [
+                      {
+                        writer: '늦잠',
+                        writeDate: Date.now(),
+                        contents: '비밀 댓글입니다.',
+                        replys: [
+                          {
+                            writer: '늦잠',
+                            writeDate: Date.now(),
+                            contents: '비밀 댓글입니다.',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                writer: 'KJC',
+                writeDate: Date.now(),
+                contents: 'ㅋㅋㅋㅋㅋㅋ',
+              },
+            ],
+          },
+          {
+            writer: '린',
+            writeDate: Date.now(),
+            contents: '비밀 댓글입니다.',
+          },
+        ],
       },
-    ])
+      {
+        writer: '웹린이',
+        writeDate: Date.now(),
+        contents: '강의 개못하네요 ㅋㅋ',
+      },
+    ]);
 
     return {
-      comments
-    }
-  }
-}
+      comments,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -58,21 +108,31 @@ export default {
   padding: 45px 50px;
   background-color: white;
   border-radius: 10px;
-  
-  .comment-header {
 
+  .comment-header {
+    font-size: 20px;
+    .comment-text {
+      margin-right: 28px;
+    }
+    .thumbs-up {
+      color: #0393ee;
+      margin-right: 36px;
+    }
+    .thumbs-down {
+      color: #f64e5b;
+    }
   }
 
   .comment-input {
     border-style: solid;
     border-width: 1px;
-    border-color: #B3B3B3;
+    border-color: #b3b3b3;
     border-radius: 50px;
 
     margin-top: 31px;
     padding: 10px 30px 15px 30px;
 
-    &>input {
+    & > input {
       width: 100%;
 
       &:focus {
