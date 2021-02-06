@@ -49,9 +49,9 @@
 </template>
 
 <script lang="ts">
-import customSelectBox from '@/components/common/common-select';
-import customInput from '@/components/common/common-input';
-import customCheckBox from '@/components/common/common-checkbox';
+import customSelectBox from '@/components/common/common-select.vue';
+import customInput from '@/components/common/common-input.vue';
+import customCheckBox from '@/components/common/common-checkbox.vue';
 import { reactive } from '@nuxtjs/composition-api';
 
 const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -96,7 +96,7 @@ export default {
 			TOS_YN: 'Y',
 			PP_YN: 'Y',
 		};
-		const getEmail = value => {
+    const getEmail = value => {
 			formData.EMAIL = value;
 			emailValidationChecker.validation = emailRule.test(formData.EMAIL);
 		};
