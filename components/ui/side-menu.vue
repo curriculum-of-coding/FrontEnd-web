@@ -14,11 +14,18 @@
             :to="menu.url"
             @click.native="onClickMenuButton(menu)"
           >
-            <font-awesome-icon class="icon-btn-menu" :icon="menu.icon"/>
+            <font-awesome-icon class="icon-btn-menu" :icon="menu.icon" />
             <span class="menu-name">{{ menu.name }}</span>
           </nuxt-link>
-          <div v-show="!isClosedSubmenu && menu.active && menu.submenu" class="sub-menu-area">
-            <div class="sub-menu" v-for="submenu in menu.submenu" :key="submenu.name">
+          <div
+            v-show="!isClosedSubmenu && menu.active && menu.submenu"
+            class="sub-menu-area"
+          >
+            <div
+              class="sub-menu"
+              v-for="submenu in menu.submenu"
+              :key="submenu.name"
+            >
               <nuxt-link
                 class="name"
                 :class="{
@@ -26,10 +33,14 @@
                 }"
                 :to="submenu.url"
                 @click.native="onClickMenuButton(submenu)"
-              >{{ submenu.name }}
+                >{{ submenu.name }}
               </nuxt-link>
               <div class="sub-sub-menu">
-                <div class="name" v-for="subsubmenu in submenu.submenu" :key="subsubmenu.name">
+                <div
+                  class="name"
+                  v-for="subsubmenu in submenu.submenu"
+                  :key="subsubmenu.name"
+                >
                   <nuxt-link
                     class="name-link"
                     :class="{
@@ -37,7 +48,7 @@
                     }"
                     :to="subsubmenu.url"
                     @click.native="onClickMenuButton(subsubmenu)"
-                  >{{ subsubmenu.name }}
+                    >{{ subsubmenu.name }}
                   </nuxt-link>
                 </div>
               </div>
@@ -48,34 +59,34 @@
     </div>
     <div v-show="!isClosedSubmenu && hasSubMenu" class="sub-side">
       <div class="btn-close" @click="onCloseSubSide">
-        <font-awesome-icon icon="chevron-left"/>
+        <font-awesome-icon icon="chevron-left" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {Ref, ref, set, computed, useContext} from '@nuxtjs/composition-api'
-import {Route} from 'vue-router/types/router'
+import { Ref, ref, computed, useContext } from '@nuxtjs/composition-api';
 
-import Menu from '@/types/menu'
+import Menu from '@/types/menu';
 
 const deepAddActiveToMenu = (menu: Menu) => {
-  menu.active = false
-  if (menu.submenu) menu.submenu.forEach((submenu) => {
-    deepAddActiveToMenu(submenu)
-  })
-}
+  menu.active = false;
+  if (menu.submenu)
+    menu.submenu.forEach(submenu => {
+      deepAddActiveToMenu(submenu);
+    });
+};
 const findRoutePathInMenuAndActive = (menu: Menu, path: string) => {
-  menu.active = false
-  let active = false
+  menu.active = false;
+  let active = false;
   if (menu.submenu) {
     for (const submenu of menu.submenu) {
-      if (findRoutePathInMenuAndActive(submenu, path)) active = true
+      if (findRoutePathInMenuAndActive(submenu, path)) active = true;
     }
   }
-  return menu.active = active || (menu.url === path)
-}
+  return (menu.active = active || menu.url === path);
+};
 
 export default {
   //메인메뉴
@@ -92,13 +103,13 @@ export default {
   //     subTitle: '위마루씨가 추천하는 커리큘럼 커리큘럼 커리큘럼', 선택
   //   }
   // ]
-  name: "side-menu",
+  name: 'side-menu',
   setup() {
-    const {route, store} = useContext()
-    const menuTitle = computed(() => store.state.menuTitle)
+    const { route, store } = useContext();
+    const menuTitle = computed(() => store.state.menuTitle);
     const setMenuTitle = (menuTitle: any) => {
-      store.commit('setMenuTitle', menuTitle)
-    }
+      store.commit('setMenuTitle', menuTitle);
+    };
     const originMenuList = [
       {
         icon: 'home',
@@ -111,7 +122,8 @@ export default {
         icon: ['far', 'thumbs-up'],
         name: '추천강의',
         subTitle: '위마루씨가 추천하는 강의추천 추천강의는 추천강의입니다',
-        url: '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★',
+        url:
+          '/본방 중계방 추천 추천 모바일도 추천 추처~언 추천을 하면은↘ 건강이 좋아져요~ 세상이 밝아져요오~↗ 뾰~옹★',
         active: false,
       },
       {
@@ -153,35 +165,35 @@ export default {
                 url: '/board/fe/curriculum',
                 subTitle: '위마루씨가 상주하고있는 커리큘럼 게시판',
               },
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       },
-    ]
+    ];
     originMenuList.forEach(menu => {
-      deepAddActiveToMenu(menu)
-    })
+      deepAddActiveToMenu(menu);
+    });
     originMenuList.forEach(menu => {
-      findRoutePathInMenuAndActive(menu, route.value.path)
-    })
-    const menuList: Ref<Menu[]> = ref(originMenuList)
+      findRoutePathInMenuAndActive(menu, route.value.path);
+    });
+    const menuList: Ref<Menu[]> = ref(originMenuList);
 
     const onClickMenuButton = (menu: Menu) => {
-      setMenuTitle(menu)
-      isClosedSubmenu.value = false
+      setMenuTitle(menu);
+      isClosedSubmenu.value = false;
       menuList.value.forEach(otherMenu => {
-        findRoutePathInMenuAndActive(otherMenu, menu.url)
-      })
-    }
+        findRoutePathInMenuAndActive(otherMenu, menu.url);
+      });
+    };
 
     const hasSubMenu = computed(() => {
-      return !!(menuList.value.find(menu => menu.active)?.submenu)
-    })
+      return !!menuList.value.find(menu => menu.active)?.submenu;
+    });
 
-    const isClosedSubmenu = ref(false)
+    const isClosedSubmenu = ref(false);
     const onCloseSubSide = () => {
-      isClosedSubmenu.value = true
-    }
+      isClosedSubmenu.value = true;
+    };
 
     return {
       menuList,
@@ -190,16 +202,17 @@ export default {
       isClosedSubmenu,
       onCloseSubSide,
       menuTitle,
-      setMenuTitle
-    }
+      setMenuTitle,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .side-menu {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 
   .main-side {
     width: 163px;
@@ -233,12 +246,13 @@ export default {
           margin-left: 19px;
           width: 160px;
           height: 40px;
-          color: #DFDFDF;
+          color: #dfdfdf;
           border-radius: 20px;
           z-index: 1;
 
-          &.active, &:hover {
-            background-color: #F64E5B;
+          &.active,
+          &:hover {
+            background-color: #f64e5b;
             color: white;
           }
 
@@ -272,8 +286,9 @@ export default {
             font-size: 18px;
             font-weight: bold;
 
-            &.active, &:hover {
-              color: #F64E5B;
+            &.active,
+            &:hover {
+              color: #f64e5b;
             }
           }
 
@@ -288,8 +303,9 @@ export default {
                 color: #969696;
                 font-weight: normal;
 
-                &.active, &:hover {
-                  color: #F64E5B;
+                &.active,
+                &:hover {
+                  color: #f64e5b;
                 }
               }
             }
@@ -315,5 +331,4 @@ export default {
     }
   }
 }
-
 </style>
