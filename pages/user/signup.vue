@@ -183,7 +183,9 @@ body {
   background: #354151;
 }
 </style>
+
 <style lang="scss" scoped>
+
 .signup {
   padding: 34px 40px;
   width: 440px;

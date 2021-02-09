@@ -2,8 +2,11 @@
   <v-row justify="center">
     <v-dialog v-model="setModal" persistent width="600px">
       <v-card>
-        <v-card-title>
-          <span class="headline">{{ modalHeader }}</span>
+        <v-card-title v-if="modalHeader === 'tos'">
+          <span class="headline"> tos 제목 </span>
+        </v-card-title>
+        <v-card-title v-else>
+          <span class="headline"> pp 제목 </span>
         </v-card-title>
         <v-card-text v-if="modalHeader === 'tos'">
           tos 유저

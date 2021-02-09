@@ -11,7 +11,9 @@
       <div class="login_btn login_git">github 회원가입</div>
       <hr class="login_line">
       <div class="login_text">sns 계정이 없으신가요?</div>
-      <div class="login_btn login_email" onclick="location.href='/user/signup'">이메일 회원가입</div>
+      <nuxt-link :to="{path:'signup'}">
+        <div class="login_btn login_email">이메일 회원가입</div>
+      </nuxt-link>
     </div>
   </div>
 </template>
