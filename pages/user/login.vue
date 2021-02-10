@@ -22,7 +22,7 @@
 
 </script>
 
-<style>
+<style lang="scss" scoped>
 body {
   background-color: #354151;
 }
@@ -75,21 +75,21 @@ body {
 }
 
 .login_kao {
-  background: url("https://lh3.googleusercontent.com/proxy/3iT-VHnxoreu8y-fQPN8PE8lilxkMGxBSFsdwpI5chBVDI-sXLbkYj5A43WzYTd9f7-3E4zFyTa98GpUcmiD0SIzs1rP0JE45ISKIG6AMW6tmgi8Eu1exviLSguHY2CKoezUu3t499-DB1TjUDKuhKgTgKG5Q27O4Ria9mwXKKyXwR4U3RBTwBwgqdhBo9hM_a9k8i5OBJmLe6qqHyXtoIXv46wiF443Ov4V7zWr1wKFZTy54gh1O2ccbxkgRP2HKn6FA55PRFkCHv6VO98J5wrzolD_EE3EMzpeoOcbYNV8CKI7dHdMjMo-ILe-ZiTPUanSlHxcGJaQgLAtE_SOLJF-4ynWPcObTOrw137W7x1lBhU3UQ") no-repeat 32% 50%;
+  background: url('~assets/img/common-img/kakao.png') no-repeat 32% 50%;
   background-size: 1.4rem;
   background-color: gold;
   padding-left: 1.8rem;
 }
 
 .login_go {
-  background: url("https://images.otwojob.com/product/m/8/0/m80rtvSmlTijWDB.png") no-repeat 35% 50%;
+  background: url('~assets/img/common-img/google.png') no-repeat 35% 50%;
   background-size: 1rem;
   background-color: gainsboro;
   padding-left: 1.3rem;
 }
 
 .login_git {
-  background: url("https://rajlab.org/icons/github_white.png") no-repeat 32% 50%;
+  background: url('~assets/img/common-img/github.png') no-repeat 32% 50%;
   background-size: 1.4rem;
   background-color: royalblue;
   padding-left: 1.5rem;
