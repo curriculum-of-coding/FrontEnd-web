@@ -80,11 +80,6 @@ export default {
     customCheckBox,
     customCheckBoxSignUp,
   },
-  data() {
-    return {
-      dialog: true,
-    };
-  },
   setup() {
     const passwordSelect: passwordSelect[] = [
       {
@@ -178,14 +173,8 @@ export default {
   },
 };
 </script>
-<style>
-body {
-  background: #354151;
-}
-</style>
 
 <style lang="scss" scoped>
-
 .signup {
   padding: 34px 40px;
   width: 440px;

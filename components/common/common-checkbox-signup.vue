@@ -205,6 +205,10 @@ export default {
   align-items: center;
   width: 100%;
   color: #000 !important;
+  font-weight: 100;
+  span {
+    font-weight: 100;
+  }
 }
 
 .checkbox_flex {

@@ -5,7 +5,7 @@
       <div class="header">
         <header-menu
           v-if="!checkMainPage"
-          :header-title="headerItems"
+          :header-title="headerItem"
           :main-page-show="true"
         >
         </header-menu>
@@ -17,28 +17,40 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import headerMenu from '~/components/ui/top-header.vue';
 import sideMenu from '~/components/ui/side-menu';
+import {
+  useContext,
+  computed,
+  onMounted,
+  watchEffect,
+} from '@nuxtjs/composition-api';
 
 export default {
-  data() {
-    return {
-      headerItems: [
-        {
-          title: '커리큘럼',
-          subTitle:
-            '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
-        },
-      ],
-    };
-  },
-  computed: {
-    checkMainPage() {
+  setup() {
+    const { route } = useContext();
+    const checkMainPage = computed(() => {
       return (
-        this.$route.name === 'user-login' || this.$route.name === 'user-signup'
+        route.value.path.includes('login') ||
+        route.value.path.includes('signup')
       );
-    },
+    });
+
+    const headerItem = [
+      {
+        title: '커리큘럼',
+        subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
+      },
+    ];
+    onMounted(() => {
+      watchEffect(() => {
+        route.value.path.includes('user')
+          ? (document.body.style.background = '#354151')
+          : (document.body.style.background = '#ffffff');
+      });
+    });
+    return { route, checkMainPage, headerItem };
   },
   components: {
     sideMenu,
