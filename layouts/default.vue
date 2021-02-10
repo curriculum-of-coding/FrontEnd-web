@@ -6,10 +6,11 @@
         <header-menu
           v-if="!checkMainPage"
           :header-title="headerItems"
-          :main-page-show="true">
+          :main-page-show="true"
+        >
         </header-menu>
       </div>
-      <div class="content">
+      <div class="content" data-app="true">
         <Nuxt></Nuxt>
       </div>
     </div>
@@ -24,23 +25,30 @@ export default {
   data() {
     return {
       headerItems: [
-        {title: '커리큘럼', subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.'}
-      ]
-    }
+        {
+          title: '커리큘럼',
+          subTitle:
+            '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
+        },
+      ],
+    };
   },
   computed: {
     checkMainPage() {
-      return this.$route.name === 'user-login' || this.$route.name === 'user-signup';
-    }
+      return (
+        this.$route.name === 'user-login' || this.$route.name === 'user-signup'
+      );
+    },
   },
   components: {
     sideMenu,
     headerMenu,
-  }
-}
+  },
+};
 </script>
 <style scoped lang="scss">
-.content, .header {
+.content,
+.header {
   padding-left: 50px;
 }
 

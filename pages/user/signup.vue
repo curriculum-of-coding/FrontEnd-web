@@ -1,64 +1,65 @@
 <template>
   <form>
-    <div class='signup'>
-      <div class='header_area'>
-        <h1 class='title'>계정 정보를 입력해주세요</h1>
-        <font-awesome-icon icon='times' class='close_btn' />
+    <div class="signup">
+      <div class="header_area">
+        <h1 class="title">계정 정보를 입력해주세요</h1>
+        <font-awesome-icon icon="times" class="close_btn" />
       </div>
-      <div class='input_area'>
+      <div class="input_area">
         <customInput
           :inputLabelID="'아이디(이메일)'"
           :inputType="'email'"
-          :validation='emailValidationChecker.validation'
+          :validation="emailValidationChecker.validation"
           :validationContent="'올바른 이메일 주소를 입력해주세요.'"
-          @SetInputValue='getEmail'
+          @SetInputValue="getEmail"
         ></customInput>
       </div>
-      <div class='input_area'>
+      <div class="input_area">
         <customInput
           :inputLabelID="'비밀번호'"
           :inputType="'password'"
           :placeholder="'8자리 이상 / 영문, 숫자, 특수문자 사용'"
-          :validation='passwordValidationChecker.validation'
+          :validation="passwordValidationChecker.validation"
           :validationContent="'특수문자는 최소 1자 입력해주세요.'"
-          @SetInputValue='getPassword'
+          @SetInputValue="getPassword"
         ></customInput>
       </div>
       <customSelectBox
         :selectLabelID="'비밀번호 찾기 질문'"
-        :select-options='passwordSelect'
-        v-model='formData.PWD_QUEST_TYPE'
-        @setSelectPW='getPWSelect'
+        :select-options="passwordSelect"
+        v-model="formData.PWD_QUEST_TYPE"
+        @setSelectPW="getPWSelect"
       ></customSelectBox>
-      <div class='input_area'>
+      <div class="input_area">
         <customInput
           :inputLabelID="'비밀번호 찾기 답변'"
           :inputType="'text'"
           :placeholder="'비밀번호 찾기 답변을 입력해주세요.'"
-          :validation='passwordValidationCheckerAnswer.validation'
+          :validation="passwordValidationCheckerAnswer.validation"
           :validationContent="'답변을 3자 이상 입력해주세요'"
-          @SetInputValue='getPasswordAnswer'
+          @SetInputValue="getPasswordAnswer"
         ></customInput>
       </div>
-      <div class='input_area'>
+      <div class="input_area">
         <customCheckBox
-          @setCheckbox='getCheckbox'
-          :checkBoxArray='checkBoxItems'
+          @setCheckbox="getCheckbox"
+          :checkBoxArray="checkBoxItems"
           :headerTitle="'관심분야'"
         ></customCheckBox>
       </div>
-      <div class='input_area term_use' >
+      <div class="input_area term_use">
         <customCheckBoxSignUp
-          :checkBoxArray='checkBoxItemsSignUp'
-          :column=true
-        ></customCheckBoxSignUp>
+          :checkBoxArray="checkBoxItemsSignUp"
+          :column="true"
+        >
+        </customCheckBoxSignUp>
       </div>
-      <button type='submit' class='signup_btn'>회원가입</button>
+      <button type="submit" class="signup_btn">회원가입</button>
     </div>
   </form>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
@@ -77,7 +78,12 @@ export default {
     customSelectBox,
     customInput,
     customCheckBox,
-    customCheckBoxSignUp
+    customCheckBoxSignUp,
+  },
+  data() {
+    return {
+      dialog: true,
+    };
   },
   setup() {
     const passwordSelect: passwordSelect[] = [
@@ -177,9 +183,11 @@ body {
   background: #354151;
 }
 </style>
-<style lang='scss' scoped>
+
+<style lang="scss" scoped>
+
 .signup {
-  padding: 34px 40px ;
+  padding: 34px 40px;
   width: 440px;
   background: #fff;
   position: absolute;
@@ -206,14 +214,14 @@ body {
       opacity: 1;
     }
   }
-.term_use{
-  margin-top: 25px;
-}
+  .term_use {
+    margin-top: 25px;
+  }
   .signup_btn {
     margin-top: 20px;
     width: 100%;
     height: 40px;
-    background: #FE3C53;
+    background: #fe3c53;
     color: #fff;
     border-radius: 5px;
   }
