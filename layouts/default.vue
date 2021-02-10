@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import headerMenu from '~/components/ui/top-header.vue';
-import sideMenu from '~/components/ui/side-menu';
+import sideMenu from '~/components/ui/side-menu.vue';
 import {
   useContext,
   computed,
