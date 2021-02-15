@@ -30,7 +30,12 @@
         </button>
       </div>
     </div>
-    <button @click="submit">서비밋</button>
+    <div class="submit_wrap">
+      <Nuxt-link :to="'/'">
+        <commonBtn :btnTitle="'취소'" :active="false"></commonBtn>
+      </Nuxt-link>
+      <commonBtn :btnTitle="'등록'" :active="true"></commonBtn>
+    </div>
   </div>
 </template>
 
@@ -38,6 +43,7 @@
 import commonContentHeader from '@/components/common/common-content-header.vue';
 import curriculumForm from '@/components/curriculum/curriculum-comment-form';
 import commonForm from '@/components/common/common-form.vue';
+import commonBtn from '@/components/common/common-button.vue';
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
@@ -45,6 +51,7 @@ export default {
     curriculumForm,
     commonContentHeader,
     commonForm,
+    commonBtn,
   },
   setup() {
     const form = reactive({
@@ -89,6 +96,7 @@ export default {
     const submit = () => {
       console.log(form);
     };
+
     return {
       titleValue,
       youtubeLinkValue,
@@ -137,6 +145,13 @@ export default {
         }
       }
     }
+  }
+  .submit_wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 60px;
   }
 }
 </style>
