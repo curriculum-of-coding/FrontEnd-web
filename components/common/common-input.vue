@@ -3,6 +3,7 @@
     <label :for="inputLabelID">
       {{ inputLabelID }}
       <input
+        :style="{ width: inputWidth }"
         :type="inputType"
         :id="inputLabelID"
         :placeholder="placeholder"
@@ -42,6 +43,9 @@ export default {
       type: String,
       default: '',
     },
+    inputWidth: {
+      type: String,
+    },
   },
   setup(props, { emit }) {
     const selectOptionPicker = '';
@@ -70,9 +74,8 @@ export default {
       align-items: center;
       margin-top: 10px;
       border: 1px solid #b3b3b3;
-      border-radius: 50px;
-      width: 100%;
       height: 40px;
+      border-radius: 5px;
       outline: none;
       padding: 0 24px;
     }

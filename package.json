@@ -17,6 +17,7 @@
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/axios": "^5.12.4",
     "@nuxtjs/composition-api": "^0.17.0",
+    "@tinymce/tinymce-vue": "^3.2.8",
     "@types/lodash": "^4.14.168",
     "add": "^2.0.6",
     "core-js": "^3.6.5",
