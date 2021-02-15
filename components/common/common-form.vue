@@ -6,11 +6,6 @@
         :inputLabelID="'제목'"
         @SetInputValue="getInputTitleValue"
       ></commonInput>
-      <commonInput
-        :inputWidth="'727px'"
-        :inputLabelID="'제목'"
-        @SetInputValue="getInputYoutubeValue"
-      ></commonInput>
     </div>
     <tiny :headerTitle="'소개'" @setValue="getValue"></tiny>
   </div>
@@ -26,29 +21,21 @@ export default {
     commonInput,
     tiny,
   },
-  props: {
-    index: Number,
-  },
   setup(props, { emit }) {
     const contentValue = reactive({
       title: '',
-      youtubeLink: '',
       content: '',
     });
     const getInputTitleValue = value => {
       contentValue.title = value;
-      emit('getInputTitleValue', contentValue.title, props.index);
-    };
-    const getInputYoutubeValue = value => {
-      contentValue.youtubeLink = value;
-      emit('getInputYoutubeValue', contentValue.youtubeLink, props.index);
+      emit('getInputValue', contentValue.title);
     };
     const getValue = value => {
       contentValue.content = value;
-      emit('getTinyValue', contentValue.content, props.index);
+      emit('getTinyValue', contentValue.content);
     };
 
-    return { getValue, contentValue, getInputTitleValue, getInputYoutubeValue };
+    return { getValue, contentValue, getInputTitleValue };
   },
   name: 'curriculum-comment-form',
 };

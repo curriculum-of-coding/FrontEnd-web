@@ -1,7 +1,11 @@
 <template>
   <div class="content_form">
     <div class="flex_item">
-      <commonInput :inputWidth="'727px'" :inputLabelID="'제목'"></commonInput>
+      <commonInput
+        :inputWidth="'727px'"
+        :inputLabelID="'제목'"
+        @SetInputValue="dd"
+      ></commonInput>
       <commonInput :inputWidth="'727px'" :inputLabelID="'제목'"></commonInput>
     </div>
     <tiny :headerTitle="'소개'" @setValue="getValue"></tiny>
@@ -18,15 +22,18 @@ export default {
     commonInput,
     tiny,
   },
-  setup() {
+  setup(emit) {
     const contentValue = reactive({
       value: '',
     });
+    const dd = value => {
+      console.log('value', value);
+    };
     const getValue = value => {
       contentValue.value = value;
     };
 
-    return { getValue, contentValue };
+    return { getValue, contentValue, dd };
   },
   name: 'curriculum-comment-form',
 };
