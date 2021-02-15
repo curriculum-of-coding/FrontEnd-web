@@ -127,6 +127,13 @@ export default {
         active: false,
       },
       {
+        icon: ['far', 'thumbs-up'],
+        name: '테스팅',
+        subTitle: '',
+        url: '/board/curriculum-create',
+        active: false,
+      },
+      {
         icon: 'book-open',
         name: '커리큘럼1',
         url: '/curriculum',

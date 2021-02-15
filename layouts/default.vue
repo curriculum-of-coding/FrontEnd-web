@@ -2,7 +2,10 @@
   <div class="main">
     <sideMenu v-if="!checkMainPage"></sideMenu>
     <div class="content_wrap">
-      <div class="header">
+      <div
+        class="header"
+        :class="[this.route.name.includes('board') ? 'border_bottom' : '']"
+      >
         <header-menu
           v-if="!checkMainPage"
           :header-title="headerItem"
@@ -19,7 +22,7 @@
 
 <script lang="ts">
 import headerMenu from '~/components/ui/top-header.vue';
-import sideMenu from '~/components/ui/side-menu';
+import sideMenu from '~/components/ui/side-menu.vue';
 import {
   useContext,
   computed,
@@ -59,6 +62,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.border_bottom {
+  border-bottom: 1px solid #dfdfdf;
+}
+
 .content,
 .header {
   padding-left: 50px;

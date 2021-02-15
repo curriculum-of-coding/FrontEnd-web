@@ -6,7 +6,7 @@
       :key="headerTitle.name"
     >
       <dt>{{ menuTitle.name }}</dt>
-      <dd>{{ menuTitle.subTitle }}</dd>
+      <dd v-if="menuTitle.subTitle.length > 1">{{ menuTitle.subTitle }}</dd>
     </dl>
     <div class="btn_wrap" v-if="mainPageShow">
       <nuxt-link :to="{ path: 'user/login' }">
