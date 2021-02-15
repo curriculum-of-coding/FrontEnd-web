@@ -1,7 +1,10 @@
 <template>
   <div class="content_form">
-    <commonInput :inputWidth="'727px'" :inputLabelID="'제목'"></commonInput>
-    <tiny :headerTitle="'소개'" @input="getValue"></tiny>
+    <div class="flex_item">
+      <commonInput :inputWidth="'727px'" :inputLabelID="'제목'"></commonInput>
+      <commonInput :inputWidth="'727px'" :inputLabelID="'제목'"></commonInput>
+    </div>
+    <tiny :headerTitle="'소개'" @setValue="getValue"></tiny>
   </div>
 </template>
 
@@ -32,5 +35,10 @@ export default {
 <style lang="scss" scoped>
 .content_form {
   margin-top: 50px;
+  .flex_item {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+  }
 }
 </style>
