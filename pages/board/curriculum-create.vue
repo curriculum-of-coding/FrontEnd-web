@@ -10,7 +10,7 @@
     ></commonForm>
     <div
       v-for="(list, index) in form.curriculumList"
-      :key="index"
+      :key="list.key"
       class="curriculum_list_wrap"
     >
       <curriculumForm
@@ -24,7 +24,7 @@
           <span class="del_btn">-</span>
           <span>삭제하기</span>
         </button>
-        <button @click="addValue">
+        <button @click="addValue(index)">
           <span class="add_btn">+</span>
           <span>추가하기</span>
         </button>
@@ -55,6 +55,7 @@ export default {
           title: '',
           youtube: '',
           content: '',
+          key: '',
         },
       ],
     });
@@ -74,11 +75,12 @@ export default {
     const tinyValue = (v, index) => {
       form.curriculumList[index].content = v;
     };
-    const addValue = () => {
+    const addValue = index => {
       form.curriculumList.push({
         title: '',
         youtube: '',
         content: '',
+        key: index,
       });
     };
     const deleteValue = index => {
