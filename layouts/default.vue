@@ -71,9 +71,6 @@ export default {
   padding-left: 50px;
 }
 
-.content {
-}
-
 .content_wrap {
   width: calc(100% - 163px);
 }

@@ -219,7 +219,6 @@ export default {
 .side-menu {
   display: flex;
   min-height: 100vh;
-  height: 100%;
 
   .main-side {
     width: 163px;
