@@ -2,12 +2,14 @@
   <div class="main_page">
     <tab-menu :tabItems="tabItem" :main-page-show="true" />
     <curriculum-wrap></curriculum-wrap>
+    <common-pagination :page="5" :total-page="5"> </common-pagination>
   </div>
 </template>
 
 <script lang="ts">
 import tabMenu from '@/components/tab-menu.vue';
 import curriculumWrap from '~/components/curriculum/curriculum-content-wrap.vue';
+import commonPagination from '~/components/common/common-pagination.vue';
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
@@ -27,6 +29,7 @@ export default {
   },
   components: {
     tabMenu,
+    commonPagination,
     curriculumWrap,
   },
 };
