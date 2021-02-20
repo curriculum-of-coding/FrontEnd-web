@@ -20,7 +20,11 @@
         :validation="false"
         :inputBorderRadius="'50px'"
       ></commonInput>
-      <customCheckBox :checkBoxArray="checkBoxItems"></customCheckBox>
+      <customCheckBox
+        :checkBoxArray="checkBoxItems"
+        :marginRight="'38px'"
+        @setCheckbox="getCheckbox"
+      ></customCheckBox>
       <button class="login_btn">
         로그인
       </button>
@@ -56,7 +60,7 @@
 
 <script>
 import commonInput from '@/components/common/common-input.vue';
-import {} from '@nuxtjs/composition-api';
+import { reactive } from '@nuxtjs/composition-api';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 export default {
   name: 'login-modal',
@@ -68,12 +72,22 @@ export default {
     const closeModal = () => {
       return emit('closeModal');
     };
+    const arrPicker = reactive([]);
+    const loginOption = reactive({
+      autoLogin: false,
+      idSave: false,
+    });
     const checkBoxItems = [
-      { id: '아이디저장', check: false },
+      { id: '아이디저장', check: true },
       { id: '자동로그인', check: false },
     ];
+    const getCheckbox = value => {
+      loginOption.autoLogin = !!value.includes('자동로그인');
+      loginOption.idSave = !!value.includes('아이디저장');
+      console.log(loginOption.autoLogin, loginOption.idSave);
+    };
 
-    return { closeModal, checkBoxItems };
+    return { closeModal, checkBoxItems, getCheckbox, arrPicker, loginOption };
   },
 };
 </script>

@@ -3,7 +3,11 @@
     <div class="checkboxTitle">{{ headerTitle }}</div>
     <div class="common_checkbox_content" :class="[column ? 'column' : '']">
       <div v-for="(items, index) in checkBoxArray" :key="index">
-        <label class="checkbox" style="--color: #FE3C53;">
+        <label
+          class="checkbox"
+          style="--color: #FE3C53;"
+          :style="{ marginRight: marginRight }"
+        >
           <span class="checkbox_input">
             <input
               type="checkbox"
@@ -47,7 +51,6 @@ export default {
     checkBoxArray: {
       type: Array,
     },
-
     checkBoxId: {
       type: Object,
     },
@@ -58,6 +61,10 @@ export default {
     headerTitle: {
       type: String,
       default: '',
+    },
+    marginRight: {
+      type: String,
+      default: '10px',
     },
   },
   setup(props, { emit }) {
