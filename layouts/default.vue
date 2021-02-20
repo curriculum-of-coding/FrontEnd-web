@@ -10,12 +10,19 @@
           v-if="!checkMainPage"
           :header-title="headerItem"
           :main-page-show="true"
+          @openModal="openModal"
         >
         </header-menu>
       </div>
       <div class="content" data-app="true">
         <Nuxt></Nuxt>
       </div>
+      <commonAllUseModal
+        @setModal="getModalStatus"
+        :setModal="openModalCheck.value"
+        :modal-content="modalContent.content"
+        :modal-header="modalHeader.header"
+      ></commonAllUseModal>
     </div>
   </div>
 </template>
@@ -23,16 +30,32 @@
 <script lang="ts">
 import headerMenu from '~/components/ui/top-header.vue';
 import sideMenu from '~/components/ui/side-menu.vue';
+import commonAllUseModal from '~/components/common/common-vuetify-modal-all-use.vue';
 import {
   useContext,
   computed,
   onMounted,
   watchEffect,
+  reactive,
 } from '@nuxtjs/composition-api';
 
 export default {
-  setup() {
+  setup: function() {
     const { route } = useContext();
+    let openModalCheck = reactive({ value: null });
+    let modalHeader = reactive({ header: '' });
+    let modalContent = reactive({ content: '' });
+
+    const openModal = value => {
+      modalContent.content = value;
+      console.log(value, 'dasds');
+      openModalCheck.value = !openModalCheck.value;
+    };
+
+    const getModalStatus = value => {
+      openModalCheck.value = value;
+    };
+
     const checkMainPage = computed(() => {
       return (
         route.value.path.includes('login') ||
@@ -53,14 +76,29 @@ export default {
           : (document.body.style.background = '#ffffff');
       });
     });
-    return { route, checkMainPage, headerItem };
+    return {
+      route,
+      checkMainPage,
+      headerItem,
+      openModal,
+      getModalStatus,
+      modalHeader,
+      openModalCheck,
+      modalContent,
+    };
   },
   components: {
     sideMenu,
     headerMenu,
+    commonAllUseModal,
   },
 };
 </script>
+<style>
+.modal_round {
+  border-radius: 20px;
+}
+</style>
 <style scoped lang="scss">
 .border_bottom {
   border-bottom: 1px solid #dfdfdf;
