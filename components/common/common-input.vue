@@ -3,14 +3,14 @@
     <label :for="inputLabelID">
       {{ inputLabelID }}
       <input
-        :style="{ width: inputWidth }"
+        :style="{ width: inputWidth, borderRadius: inputBorderRadius }"
         :type="inputType"
         :id="inputLabelID"
         :placeholder="placeholder"
         @input="updateValue($event.target.value)"
       />
     </label>
-    <span class="validation">
+    <span class="validation" v-if="validation">
       <span v-show="!validation">
         {{ validationContent }}
       </span>
@@ -46,6 +46,9 @@ export default {
     inputWidth: {
       type: String,
     },
+    inputBorderRadius: {
+      type: String,
+    },
   },
   setup(props, { emit }) {
     const selectOptionPicker = '';
@@ -78,6 +81,10 @@ export default {
       border-radius: 5px;
       outline: none;
       padding: 0 24px;
+      &::placeholder {
+        color: #b3b3b3;
+        font-size: 14px;
+      }
     }
   }
 
