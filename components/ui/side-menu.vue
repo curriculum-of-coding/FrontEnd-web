@@ -108,7 +108,7 @@ export default {
     const { route, store } = useContext();
     const menuTitle = computed(() => store.state.menuTitle);
     const setMenuTitle = (menuTitle: any) => {
-      store.commit('setMenuTitle', menuTitle);
+      store.dispatch('menuTitle/setMenuTitle', menuTitle);
     };
     const originMenuList = [
       {
