@@ -143,8 +143,8 @@ export default {
       {
         icon: 'chalkboard',
         name: '게시판',
-        url: '/board/notice',
-        subTitle: '게시판 메인입니다',
+        url: '/board/mainBoard',
+        subTitle: '',
         active: false,
         submenu: [
           {
