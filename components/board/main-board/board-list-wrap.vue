@@ -9,7 +9,7 @@
 
 <script>
 import {} from '@nuxtjs/composition-api';
-import boardList from '@/components/board/board-list.vue';
+import boardList from '@/components/board/main-board/board-list.vue';
 
 export default {
   name: 'board-list-wrap',

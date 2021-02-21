@@ -90,8 +90,7 @@ export default {
   .reply-icon {
     margin-right: 12px;
   }
-
-  .comment-header {
+  header .comment-header {
     .comment-writer {
       font-size: 18px;
       font-weight: bold;
