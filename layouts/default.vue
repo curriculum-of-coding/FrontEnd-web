@@ -68,7 +68,7 @@ export default {
 
 .content,
 .header {
-  padding-left: 50px;
+  padding: 0 50px;
 }
 
 .content_wrap {
