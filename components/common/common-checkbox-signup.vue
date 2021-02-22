@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import commonModal from '@/components/common/common-modal';
+import commonModal from '@/components/common/common-vuetify-only-user-modal';
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {

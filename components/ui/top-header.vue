@@ -9,12 +9,8 @@
       <dd v-if="menuTitle.subTitle.length > 1">{{ menuTitle.subTitle }}</dd>
     </dl>
     <div class="btn_wrap" v-if="mainPageShow">
-      <nuxt-link :to="{ path: 'user/login' }">
-        <button class="login">로그인</button>
-      </nuxt-link>
-      <nuxt-link :to="{ path: 'user/signup' }">
-        <button class="sign_up">회원 가입</button>
-      </nuxt-link>
+      <button class="login" @click="modalOpen('login')">로그인</button>
+      <button class="login" @click="modalOpen('signup')">회원가입</button>
     </div>
   </div>
 </template>
@@ -34,11 +30,15 @@ export default {
       },
     },
   },
-  setup() {
+  setup(props, { emit }) {
     const { store } = useContext();
-    const menuTitle = computed(() => store.state.menuTitle);
+    const menuTitle = computed(() => store.state.menuTitle.menuTitle);
+    const modalOpen = value => {
+      return emit('openModal', value);
+    };
     return {
       menuTitle,
+      modalOpen,
     };
   },
 };
