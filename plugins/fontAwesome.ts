@@ -13,10 +13,12 @@ import {
   faBookOpen,
   faChalkboard,
   faCommentDots,
+  faSearch,
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
+
 } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as farThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -34,6 +36,7 @@ library.add(
   faBookOpen,
   faChalkboard,
   faCommentDots,
+  faSearch,
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faAngleLeft,
