@@ -26,6 +26,7 @@ export default {
     { src: '~plugins/plugins.ts' },
     { src: '~plugins/fontAwesome.ts' },
     { src: '~plugins/swiper.js' },
+    { src: '~plugins/filters.js' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

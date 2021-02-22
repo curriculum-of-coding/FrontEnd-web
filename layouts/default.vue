@@ -3,7 +3,7 @@
     <sideMenu v-if="!checkMainPage"></sideMenu>
     <div class="content_wrap">
       <div
-        class="header"
+        class="header border_bottom"
         :class="[this.route.name.includes('board') ? 'border_bottom' : '']"
       >
         <header-menu
@@ -104,11 +104,13 @@ export default {
   border-bottom: 1px solid #dfdfdf;
 }
 
-.content,
 .header {
-  padding-left: 50px;
+  padding: 0 50px;
 }
-
+.content {
+  padding-left: 50px;
+  margin-top: 47px;
+}
 .content_wrap {
   width: calc(100% - 163px);
 }

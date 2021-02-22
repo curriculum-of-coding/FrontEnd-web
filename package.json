@@ -34,7 +34,8 @@
     "swiper": "^5.4.5",
     "vue-awesome-swiper": "^4.1.1",
     "vue-lodash": "^2.1.2",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.10",
+    "@nuxtjs/moment": "^1.6.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",

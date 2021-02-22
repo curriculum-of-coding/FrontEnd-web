@@ -4,11 +4,20 @@
       <ul class="tab_menu_contents">
         <li v-for="items in tabItems" :key="items.field">
           <span
+            v-if="items.link.length === 0"
             @click="setItemsFiled(items.name)"
             :class="{ active: items.active }"
           >
             {{ items.name }}
           </span>
+          <nuxt-link :to="items.link" v-else>
+            <span
+              @click="setItemsFiledRouterLink(items.link)"
+              :class="{ active: items.active }"
+            >
+              {{ items.name }}
+            </span>
+          </nuxt-link>
         </li>
       </ul>
     </div>
@@ -21,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { computed } from '@nuxtjs/composition-api';
+import { computed, watchEffect, useContext } from '@nuxtjs/composition-api';
+
 import tabMenu from '@/types/menu';
 
 export default {
@@ -35,16 +45,28 @@ export default {
       default: true,
     },
   },
-  setup(props: any) {
+  setup(props: any, { root }: any) {
+    const route = useContext();
     const setItemsFiled = (tabName: string) => {
       props.tabItems.forEach((v: tabMenu) => {
         v.active = v.name === tabName;
       });
     };
+    watchEffect(() => {
+      props.tabItems.forEach((v: any) => {
+        v.active = v.link === root.$route.path;
+      });
+    });
+    const setItemsFiledRouterLink = (value: Boolean) => {
+      props.tabItems.forEach((v: any) => {
+        v.active = v.link === value;
+      });
+      root.$router.push(value);
+    };
     const showIsMain = computed(() => {
       return props.mainPageShow;
     });
-    return { setItemsFiled, showIsMain };
+    return { setItemsFiled, showIsMain, setItemsFiledRouterLink, route };
   },
 };
 </script>

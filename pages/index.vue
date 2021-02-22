@@ -15,10 +15,10 @@ import { reactive } from '@nuxtjs/composition-api';
 export default {
   setup() {
     const tabItem = reactive([
-      { name: '분야별 TOP1', field: 'TOP', active: false },
-      { name: 'Front-end', field: 'FE', active: true },
-      { name: 'Back-end', field: 'BE', active: false },
-      { name: 'Dev-ops', field: 'DO', active: false },
+      { name: '분야별 TOP1', field: 'TOP', active: false, link: '' },
+      { name: 'Front-end', field: 'FE', active: true, link: '' },
+      { name: 'Back-end', field: 'BE', active: false, link: '' },
+      { name: 'Dev-ops', field: 'DO', active: false, link: '' },
     ]);
 
     return { tabItem };
