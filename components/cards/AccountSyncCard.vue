@@ -61,7 +61,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .account-sync-card {
+  width: 476px;
   display: inline-block;
+  margin-right: 24px;
 
   .title {
     font-size: 20px;

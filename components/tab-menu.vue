@@ -54,14 +54,14 @@ export default {
     };
     watchEffect(() => {
       props.tabItems.forEach((v: any) => {
-        v.active = v.link === root.$route.path;
+        if (v.link.length !== 0) v.active = v.link === root.$route.path;
       });
     });
     const setItemsFiledRouterLink = (value: Boolean) => {
       props.tabItems.forEach((v: any) => {
         v.active = v.link === value;
+        root.$router.push(value);
       });
-      root.$router.push(value);
     };
     const showIsMain = computed(() => {
       return props.mainPageShow;

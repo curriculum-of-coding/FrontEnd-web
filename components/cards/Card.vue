@@ -13,9 +13,9 @@ export default defineComponent({});
   box-shadow: 0px 0px 10px #0000001a;
   padding: {
     top: 30px;
-    right: 30px;
+    right: 20px;
     bottom: 30px;
-    left: 30px;
+    left: 20px;
   }
   border-radius: 10px;
 }
