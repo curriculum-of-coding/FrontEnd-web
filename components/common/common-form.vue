@@ -3,11 +3,11 @@
     <div class="flex_item">
       <commonInput
         :inputWidth="'727px'"
-        :inputLabelID="'제목'"
+        :inputLabelID="inputLabelID"
         @SetInputValue="getInputTitleValue"
       ></commonInput>
     </div>
-    <tiny :headerTitle="'소개'" @setValue="getValue"></tiny>
+    <tiny :headerTitle="inputHeaderTitle" @setValue="getValue"></tiny>
   </div>
 </template>
 
@@ -20,6 +20,14 @@ export default {
   components: {
     commonInput,
     tiny,
+  },
+  props: {
+    inputLabelID: {
+      type: String,
+    },
+    inputHeaderTitle: {
+      type: String,
+    },
   },
   setup(props, { emit }) {
     const contentValue = reactive({
