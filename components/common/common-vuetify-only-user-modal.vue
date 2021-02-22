@@ -1,6 +1,11 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="setModal" persistent width="600px">
+    <v-dialog
+      v-model="setModal"
+      persistent
+      width="600px"
+      content-class="modal_round"
+    >
       <v-card>
         <v-card-title v-if="modalHeader === 'tos'">
           <span class="headline"> tos 제목 </span>
@@ -32,7 +37,7 @@
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
-  name: 'common-modal',
+  name: 'common-vuetify-only-user-modal',
   props: {
     setModal: {
       default: false,
