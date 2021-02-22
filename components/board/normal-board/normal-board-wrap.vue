@@ -11,6 +11,11 @@ import normalList from '@/components/board/normal-board/normal-board-list.vue';
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
+  props: {
+    routeType: {
+      type: String,
+    },
+  },
   setup() {
     const listItems = reactive({
       front: {

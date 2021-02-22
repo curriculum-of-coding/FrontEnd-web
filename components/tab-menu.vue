@@ -45,7 +45,7 @@ export default {
       default: true,
     },
   },
-  setup(props: any, { root }) {
+  setup(props: any, { root }: any) {
     const route = useContext();
     const setItemsFiled = (tabName: string) => {
       props.tabItems.forEach((v: tabMenu) => {
@@ -53,12 +53,12 @@ export default {
       });
     };
     watchEffect(() => {
-      props.tabItems.forEach((v: tabMenu) => {
+      props.tabItems.forEach((v: any) => {
         v.active = v.link === root.$route.path;
       });
     });
-    const setItemsFiledRouterLink = value => {
-      props.tabItems.forEach((v: tabMenu) => {
+    const setItemsFiledRouterLink = (value: Boolean) => {
+      props.tabItems.forEach((v: any) => {
         v.active = v.link === value;
       });
       root.$router.push(value);

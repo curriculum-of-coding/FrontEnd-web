@@ -17,7 +17,9 @@
         <div class="tab_menu_area">
           <tab-menu :tabItems="tabItem" :main-page-show="false" />
         </div>
-        <normalBoardListWrap></normalBoardListWrap>
+        <div class="board_content">
+          <normalBoardListWrap :routeType="'front'"></normalBoardListWrap>
+        </div>
       </div>
     </template>
   </div>
@@ -199,7 +201,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tab_menu_area {
-  margin-top: 68.5px;
+.board_content {
+  padding-right: 50px;
 }
 </style>
