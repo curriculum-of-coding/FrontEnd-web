@@ -2,7 +2,11 @@
   <div class="table_area">
     <div class="information_area">
       <span class="border_bottom">전체 ({{ tableListItems.length }})</span>
-      <commonBtnNotRadius :btnTitle="'글쓰기'" class="btn"></commonBtnNotRadius>
+      <commonBtnNotRadius
+        v-if="bntDisableCheck"
+        :btnTitle="'글쓰기'"
+        class="btn"
+      ></commonBtnNotRadius>
     </div>
     <v-simple-table>
       <template v-slot:default>
@@ -32,6 +36,9 @@ export default {
   props: {
     tableListItems: {
       type: Array,
+    },
+    bntDisableCheck: {
+      type: Boolean,
     },
   },
   setup(props) {

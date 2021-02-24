@@ -76,7 +76,6 @@ export default {
   display: flex;
   align-content: center;
   justify-content: center;
-  margin-top: 100px;
   .pagination_content {
     display: flex;
     align-items: center;

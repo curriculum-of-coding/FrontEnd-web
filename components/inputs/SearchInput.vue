@@ -1,5 +1,5 @@
 <template>
-  <div class="search-input">
+  <div class="search-input" :style="{ width: inputWidth }">
     <v-select
       class="btn-select"
       hide-details="auto"
@@ -21,6 +21,11 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@nuxtjs/composition-api';
 export default defineComponent({
+  props: {
+    inputWidth: {
+      type: String,
+    },
+  },
   setup() {
     const items = reactive(['제목', '내용']);
     const tag = ref(items[0]);
