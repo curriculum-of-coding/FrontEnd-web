@@ -72,8 +72,8 @@
   </div>
 </template>
 
-<script>
-import commonModal from '@/components/common/common-vuetify-only-user-modal';
+<script lang="ts">
+import commonModal from '@/components/common/common-vuetify-only-user-modal.vue';
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
@@ -98,19 +98,19 @@ export default {
       default: '',
     },
   },
-  setup(props, { emit }) {
-    let openModalCheck = reactive({ value: null });
+  setup(props: any, { emit }: any) {
+    let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
     const checkBoxPicker = reactive([]);
 
-    const setCheckbox = value => {
+    const setCheckbox = (value: any) => {
       return emit('setCheckbox', value);
     };
-    const openModal = value => {
+    const openModal = (value: any) => {
       modalHeader.header = value;
       openModalCheck.value = !openModalCheck.value;
     };
-    const getModalStatus = value => {
+    const getModalStatus = (value: any) => {
       openModalCheck.value = value;
     };
     return {

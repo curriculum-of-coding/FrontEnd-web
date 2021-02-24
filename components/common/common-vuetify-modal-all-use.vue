@@ -15,6 +15,12 @@
         <div v-if="modalContent === 'login'">
           <loginModal @closeModal="close"></loginModal>
         </div>
+        <div v-if="modalContent === 'passwordChange'">
+          <emailCheckModal
+            :headerTitle="'비밀번호 찾기'"
+            @closeModal="close"
+          ></emailCheckModal>
+        </div>
       </v-card>
     </v-dialog>
   </v-row>
@@ -23,6 +29,8 @@
 <script>
 import signUpModal from '@/components/modal-content/signup-modal.vue';
 import loginModal from '@/components/modal-content/login-modal.vue';
+import emailCheckModal from '@/components/modal-content/email-check-modal.vue';
+
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
@@ -41,6 +49,7 @@ export default {
   components: {
     signUpModal,
     loginModal,
+    emailCheckModal,
   },
   setup(props, { emit }) {
     let openModalCheck = reactive({ props });

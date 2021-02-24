@@ -11,6 +11,10 @@
     <div class="btn_wrap" v-if="mainPageShow">
       <button class="login" @click="modalOpen('login')">로그인</button>
       <button class="login" @click="modalOpen('signup')">회원가입</button>
+      <!-- TODO:삭제예정 -->
+      <button class="login" @click="modalOpen('passwordChange')">
+        비밀번호 변경
+      </button>
     </div>
   </div>
 </template>
@@ -30,10 +34,10 @@ export default {
       },
     },
   },
-  setup(props, { emit }) {
+  setup(props: any, { emit }: any) {
     const { store } = useContext();
     const menuTitle = computed(() => store.state.menuTitle.menuTitle);
-    const modalOpen = value => {
+    const modalOpen = (value: any) => {
       return emit('openModal', value);
     };
     return {

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <font-awesome-icon icon="times" class="close" @click="closeModal" />
+    <div class="close" @click="closeModal"></div>
     <div class="header">
       LOGO
     </div>
@@ -57,10 +57,35 @@ export default {
 .login {
   padding: 86px 40px 46px 40px;
   .close {
-    position: absolute;
-    right: 20px;
-    top: 30px;
+    width: 30px;
+    color: #b3b3b3;
+    height: 30px;
     cursor: pointer;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 40px;
+      margin-top: 1.25em;
+      margin-left: 4em;
+      height: 17px;
+      border: solid #b3b3b3;
+      border-width: 0 2px 0px 0;
+      transform: rotate(45deg);
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 40px;
+      margin-top: 1.25em;
+      margin-left: 4em;
+      height: 17px;
+      border: solid #b3b3b3;
+      border-width: 0 2px 0px 0;
+      transform: rotate(-45deg);
+    }
   }
   .header {
     text-align: center;
