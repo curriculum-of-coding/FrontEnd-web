@@ -34,10 +34,10 @@ export default {
       },
     },
   },
-  setup(props, { emit }) {
+  setup(props: any, { emit }: any) {
     const { store } = useContext();
     const menuTitle = computed(() => store.state.menuTitle.menuTitle);
-    const modalOpen = value => {
+    const modalOpen = (value: any) => {
       return emit('openModal', value);
     };
     return {

@@ -42,17 +42,16 @@ import {
 export default {
   setup: function() {
     const { route } = useContext();
-    let openModalCheck = reactive({ value: null });
+    let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
     let modalContent = reactive({ content: '' });
 
-    const openModal = value => {
+    const openModal = (value: any) => {
       modalContent.content = value;
-      console.log(value, 'dasds');
       openModalCheck.value = !openModalCheck.value;
     };
 
-    const getModalStatus = value => {
+    const getModalStatus = (value: any) => {
       openModalCheck.value = value;
     };
 
