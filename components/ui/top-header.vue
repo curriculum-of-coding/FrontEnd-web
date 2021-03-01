@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 #header_wrap {
-  padding: 20px 20px 20px 0;
+  padding: 20px 0px;
   display: flex;
   justify-content: space-between;
   .header_contents {
@@ -68,7 +68,6 @@ export default {
     }
   }
   .btn_wrap {
-    margin-right: 44px;
     .login {
       color: #0d0d0d;
       background: #f0f0f0;
@@ -76,7 +75,10 @@ export default {
       border-radius: 5px;
       font-size: 18px;
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 14px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
