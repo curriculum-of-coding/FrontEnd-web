@@ -107,7 +107,7 @@ export default {
   padding: 0 50px;
 }
 .content {
-  padding-left: 50px;
+  padding: 0 50px;
   margin-top: 47px;
 }
 .content_wrap {
