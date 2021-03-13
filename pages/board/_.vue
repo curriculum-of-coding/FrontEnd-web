@@ -200,8 +200,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.board_content {
-  padding-right: 50px;
-}
-</style>
+<style lang="scss" scoped></style>
