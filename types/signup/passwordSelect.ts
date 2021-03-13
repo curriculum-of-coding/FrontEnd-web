@@ -1,6 +1,5 @@
 type passwordSelect = {
-  PWD_QUEST_TYPE:number
-  options:string
+  options: string
 }
 
 export default passwordSelect
