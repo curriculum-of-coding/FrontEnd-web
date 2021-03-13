@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.stop.prevent="onSubmit">
     <div class="signup">
       <div class="header_area">
         <h1 class="title">계정 정보를 입력해주세요</h1>
@@ -9,19 +9,32 @@
         <customInput
           :inputLabelID="'아이디(이메일)'"
           :inputType="'email'"
-          :validation="emailValidationChecker.validation"
-          :validationContent="'올바른 이메일 주소를 입력해주세요.'"
+          :inputBorderRadius="'50px'"
+          :validation="ValidationChecker.email"
+          :validationContent="emailValidationCotent"
           @SetInputValue="getEmail"
+        ></customInput>
+      </div>
+      <div class="input_area">
+        <customInput
+          :inputLabelID="'닉네임'"
+          :inputType="'text'"
+          :inputBorderRadius="'50px'"
+          :validation="ValidationChecker.nickname"
+          :validationContent="'중복된 닉네임입니다.'"
+          @SetInputValue="getNickName"
         ></customInput>
       </div>
       <div class="input_area">
         <customInput
           :inputLabelID="'비밀번호'"
           :inputType="'password'"
-          :placeholder="'8자리 이상 / 영문, 숫자, 특수문자 사용'"
-          :validation="passwordValidationChecker.validation"
+          :inputBorderRadius="'50px'"
+          :validation="ValidationChecker.password"
           :validationContent="'특수문자는 최소 1자 입력해주세요.'"
           @SetInputValue="getPassword"
+          :defalutValidation="true"
+          :defalutValidationText="'8자 이상 , 영문 , 숫자'"
         ></customInput>
       </div>
       <customSelectBox
@@ -34,8 +47,9 @@
         <customInput
           :inputLabelID="'비밀번호 찾기 답변'"
           :inputType="'text'"
+          :inputBorderRadius="'50px'"
           :placeholder="'비밀번호 찾기 답변을 입력해주세요.'"
-          :validation="passwordValidationCheckerAnswer.validation"
+          :validation="ValidationChecker.passwordAnswer"
           :validationContent="'답변을 3자 이상 입력해주세요'"
           @SetInputValue="getPasswordAnswer"
         ></customInput>
@@ -51,6 +65,7 @@
         <customCheckBoxSignUp
           :checkBoxArray="checkBoxItemsSignUp"
           :column="true"
+          @setCheckbox="getUserAssign"
         >
         </customCheckBoxSignUp>
       </div>
@@ -64,15 +79,22 @@ import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 import customCheckBoxSignUp from '@/components/common/common-checkbox-signup.vue';
-import { reactive } from '@nuxtjs/composition-api';
+import { reactive, useContext, ref, Ref } from '@nuxtjs/composition-api';
 import signUp from '~/types/signup/signup';
 import interCheckbox from '~/types/signup/interCheckbox';
 import passwordSelect from '~/types/signup/passwordSelect';
 import termUser from '~/types/signup/termUser';
+import { NuxtAxiosInstance } from '@nuxtjs/axios';
 
 const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 const passwordRule = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
-
+export function useAxios(): NuxtAxiosInstance {
+  const { $axios } = useContext();
+  if (!$axios) {
+    throw new Error('nuxt axios is not defined!');
+  }
+  return $axios;
+}
 export default {
   components: {
     customSelectBox,
@@ -81,17 +103,16 @@ export default {
     customCheckBoxSignUp,
   },
   setup() {
+    const { $axios } = useContext();
+
     const passwordSelect: passwordSelect[] = [
       {
-        PWD_QUEST_TYPE: 0,
-        options: '1+1은?',
+        options: '당신이 다닌 초등학교의 이름은?',
       },
       {
-        PWD_QUEST_TYPE: 1,
         options: '처음으로 키운 강아지 이름은?',
       },
       {
-        PWD_QUEST_TYPE: 2,
         options: '태어난 동네 이름은?',
       },
     ];
@@ -104,56 +125,119 @@ export default {
       { id: '(필수) 서비스 이용약관', contentType: 'tos', check: false },
       { id: '(필수) 개인정보 처리방침', contentType: 'pp', check: false },
     ];
+    let ValidationChecker = reactive({
+      email: true,
+      nickName: true,
+      password: true,
+      passwordAnswer: true,
+    });
 
     const formData: signUp = {
-      USER_ID: 0,
-      EMAIL: 'abcd@naver.com',
-      USER_PWD: '1q2w3e4r5t!',
-      REG_DATE: '20210118',
-      PWD_QUEST_TYPE: 0,
-      PWD_ANSWER: '이게 나다 리발',
-      INTEREST_FRONT: false,
-      INTEREST_BACK: false,
-      INTEREST_DEVOPS: false,
-      TOS_YN: false,
-      PP_YN: false,
+      EMAIL: '',
+      password: '',
+      nickname: '!',
+      PWDQuestType: '당신이 다닌 초등학교의 이름은?',
+      PWDAnswer: '',
+      interest: {
+        front: 'N',
+        back: 'N',
+        devops: 'N',
+      },
+      TOS: 'N',
+      PP: 'N',
+    };
+    let emailValidationCotent: Ref<string> = ref(
+      '올바른 이메일 주소를 입력해주세요.',
+    );
+
+    const sameAsEmailAndNick = (type: string, value: string) => {
+      let paramType = '';
+      value === 'email' ? (paramType = 'email') : (paramType = 'nickname');
+      $axios
+        .get('http://localhost:3000/api/check', {
+          params: {
+            type: paramType,
+            paramType: value,
+          },
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log('dddsds', err);
+        });
     };
     const getEmail = (value: string) => {
-      formData.EMAIL = value;
-      emailValidationChecker.validation = emailRule.test(formData.EMAIL);
+      ValidationChecker.email = emailRule.test(value);
+      if (ValidationChecker.email) {
+        formData.EMAIL = value;
+        sameAsEmailAndNick('email', formData.EMAIL);
+      }
     };
-
+    const getNickName = (value: string) => {
+      formData.nickname = value;
+      sameAsEmailAndNick('nickname', formData.nickname);
+    };
     const getPassword = (value: string) => {
-      formData.USER_PWD = value;
-      console.log(formData.USER_PWD);
-      passwordValidationChecker.validation = passwordRule.test(
-        formData.USER_PWD,
-      );
+      formData.password = value;
+      ValidationChecker.password = passwordRule.test(formData.password);
     };
     const getPasswordAnswer = (value: string) => {
-      formData.PWD_ANSWER = value;
-      passwordValidationCheckerAnswer.validation =
-        formData.PWD_ANSWER.length >= 3;
+      formData.PWDAnswer = value;
+      ValidationChecker.passwordAnswer = formData.PWDAnswer.length >= 3;
     };
-    let emailValidationChecker = reactive({
-      validation: true,
-    });
-    let passwordValidationChecker = reactive({
-      validation: true,
-    });
-    let passwordValidationCheckerAnswer = reactive({
-      validation: true,
-    });
-    const getPWSelect = (value: number) => {
-      return (formData.PWD_QUEST_TYPE = value);
+
+    const getPWSelect = (value: string) => {
+      console.log(value);
+      return (formData.PWDQuestType = value);
     };
     const getCheckbox = (value: string[]) => {
       interests(value);
     };
+
+    const onSubmit = () => {
+      if (!formData.TOS || !formData.PP) {
+        alert('필수항목');
+      } else {
+        if (
+          ValidationChecker.email &&
+          ValidationChecker.nickName &&
+          ValidationChecker.password &&
+          ValidationChecker.passwordAnswer
+        ) {
+          $axios
+            .post('api/register', formData)
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log('dddsds', err);
+            });
+        } else {
+          alert('다시한번 확인해주세요.실패했습니다.');
+        }
+      }
+    };
+
+    //체크박스 벨류 삼항식
     const interests = (value: string[]) => {
-      formData.INTEREST_FRONT = !!value.includes('프론트앤드');
-      formData.INTEREST_BACK = !!value.includes('백앤드');
-      formData.INTEREST_DEVOPS = !!value.includes('데브옵스');
+      value.includes('프론트앤드')
+        ? (formData.interest.front = 'Y')
+        : (formData.interest.front = 'N');
+      value.includes('백앤드')
+        ? (formData.interest.back = 'Y')
+        : (formData.interest.back = 'N');
+      value.includes('데브옵스')
+        ? (formData.interest.devops = 'Y')
+        : (formData.interest.devops = 'N');
+    };
+    const getUserAssign = (value: String) => {
+      value.includes('(필수) 서비스 이용약관')
+        ? (formData.TOS = 'Y')
+        : (formData.TOS = 'N');
+      value.includes('(필수) 개인정보 처리방침')
+        ? (formData.PP = 'Y')
+        : (formData.PP = 'N');
     };
     return {
       getPWSelect,
@@ -164,11 +248,14 @@ export default {
       interests,
       getPassword,
       getPasswordAnswer,
-      emailValidationChecker,
-      passwordValidationChecker,
-      passwordValidationCheckerAnswer,
       checkBoxItemsSignUp,
       getCheckbox,
+      onSubmit,
+      getUserAssign,
+      sameAsEmailAndNick,
+      emailValidationCotent,
+      getNickName,
+      ValidationChecker,
     };
   },
 };
@@ -182,6 +269,7 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
+  border-radius: 20px;
   transform: translate(-50%, -50%);
 
   .header_area {
@@ -207,12 +295,14 @@ export default {
     margin-top: 25px;
   }
   .signup_btn {
-    margin-top: 20px;
     width: 100%;
     height: 40px;
     background: #fe3c53;
     color: #fff;
     border-radius: 5px;
+    font-weight: 100;
+    border-radius: 50px;
+    margin-top: 60px;
   }
 }
 </style>
