@@ -18,6 +18,7 @@ import {
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
+  faCheck
 
 } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as farThumbsUp } from '@fortawesome/free-regular-svg-icons';
@@ -41,5 +42,6 @@ library.add(
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
+  faCheck
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
