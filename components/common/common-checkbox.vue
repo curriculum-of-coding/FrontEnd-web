@@ -70,6 +70,7 @@ export default {
   setup(props, { emit }) {
     let checkBoxPicker = reactive([]);
     const setCheckbox = value => {
+      console.log('value', value);
       return emit('setCheckbox', value);
     };
 
@@ -88,6 +89,7 @@ export default {
 .common_checkbox_content {
   display: flex;
   justify-content: flex-start;
+  margin-top: 10px;
 
   &.column {
     flex-direction: column;

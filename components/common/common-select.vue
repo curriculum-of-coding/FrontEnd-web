@@ -10,7 +10,7 @@
       <option
         v-for="(item, index) in selectOptions"
         :key="index"
-        :value="item.PWD_QUEST_TYPE"
+        :value="item.options"
       >
         {{ item.options }}
       </option>
@@ -33,7 +33,7 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const selectOptionPicker = 0;
+    const selectOptionPicker = '당신이 다닌 초등학교의 이름은?';
     const updateValue = value => {
       return emit('setSelectPW', value);
     };
@@ -60,6 +60,10 @@ label {
     outline: none;
     padding: 0 24px;
     margin-bottom: 24px;
+    option {
+      font-size: 14px;
+      font-weight: 100;
+    }
   }
 }
 </style>

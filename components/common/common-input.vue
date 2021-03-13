@@ -10,10 +10,14 @@
         @input="updateValue($event.target.value)"
       />
     </label>
-    <span class="validation" v-if="validation">
+    <span class="validation">
       <span v-show="!validation">
         {{ validationContent }}
       </span>
+      <div class="defalut_validation_area" v-if="defalutValidation">
+        <font-awesome-icon icon="check" class="check_icon" />
+        <span>{{ defalutValidationText }}</span>
+      </div>
     </span>
   </div>
 </template>
@@ -48,6 +52,14 @@ export default {
     },
     inputBorderRadius: {
       type: String,
+    },
+    defalutValidation: {
+      type: Boolean,
+      default: false,
+    },
+    defalutValidationText: {
+      type: String,
+      default: '',
     },
   },
   setup(props, { emit }) {
@@ -89,10 +101,25 @@ export default {
   }
 
   .validation {
-    padding-bottom: 25px;
-    display: block;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+
+    .defalut_validation_area {
+      margin-left: 15px;
+      span {
+        font: normal normal normal 14px/16px NanumSquareRound;
+        color: #000000;
+        font-weight: 500;
+      }
+      .check_icon {
+        color: #f64e5b;
+      }
+    }
+
     span {
-      margin-left: 5px;
       text-align: left;
       font: normal normal normal 14px/19px NanumSquareRound;
       letter-spacing: -0.7px;
