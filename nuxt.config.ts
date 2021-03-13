@@ -40,13 +40,19 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api',
   ],
-
+  server: {
+    port: 8080,
+    host: '127.0.0.1'
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: ['@nuxtjs/axios'],
   axios: {
-    baseURL: 'localhost:3000',
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? "/api"
+        : "http://localhost:3000/",
     proxyHeaders: false,
-    credentials: false,
+    credentials: false
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
