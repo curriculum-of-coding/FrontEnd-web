@@ -22,7 +22,10 @@
       </div>
       <commonAllUseModal
         @setModal="getModalStatus"
+        @openSignupDetail="openSignupDetail"
+        @closeSignupDetailModal="closeSignupDetailModal"
         :setModal="openModalCheck.value"
+        :singupDetail="singupDetail"
         :modal-content="modalContent.content"
         :modal-header="modalHeader.header"
       ></commonAllUseModal>
@@ -34,6 +37,7 @@
 import headerMenu from '~/components/ui/top-header.vue';
 import sideMenu from '~/components/ui/side-menu.vue';
 import commonAllUseModal from '~/components/common/common-vuetify-modal-all-use.vue';
+
 import {
   useContext,
   computed,
@@ -41,6 +45,8 @@ import {
   watchEffect,
   watch,
   reactive,
+  ref,
+  Ref,
 } from '@nuxtjs/composition-api';
 
 export default {
@@ -50,7 +56,7 @@ export default {
     let modalHeader = reactive({ header: '' });
     let modalContent = reactive({ content: '' });
     const { store } = useContext();
-
+    let singupDetail: Ref<boolean> = ref(false);
     let status = computed(() => store.state.signupSuccess.signupStatus);
 
     const openModal = (value: any) => {
@@ -60,6 +66,12 @@ export default {
 
     const getModalStatus = (value: any) => {
       openModalCheck.value = value;
+    };
+    const openSignupDetail = () => {
+      singupDetail.value = true;
+    };
+    const closeSignupDetailModal = () => {
+      singupDetail.value = false;
     };
 
     const checkMainPage = computed(() => {
@@ -100,6 +112,9 @@ export default {
       openModalCheck,
       modalContent,
       status,
+      openSignupDetail,
+      singupDetail,
+      closeSignupDetailModal,
     };
   },
   components: {

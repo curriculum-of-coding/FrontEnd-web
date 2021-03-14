@@ -21,7 +21,7 @@
             </svg>
           </span>
         </span>
-        <span class="checkbox_value">
+        <span class="checkbox_value" @click="checkAllValue(checkBoxPicker)">
           모두 동의
         </span>
       </label> -->
@@ -85,7 +85,6 @@ export default {
     checkBoxArray: {
       type: Array,
     },
-
     checkBoxId: {
       type: Object,
     },
@@ -101,13 +100,14 @@ export default {
   setup(props: any, { emit }: any) {
     let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
-    const checkBoxPicker = reactive([]);
+    let checkBoxPicker = reactive([]);
 
     const setCheckbox = (value: any) => {
-      console.log('checkBoxPicker', checkBoxPicker);
+      console.log('checkBoxPicker', value);
 
       return emit('setCheckbox', value);
     };
+
     const openModal = (value: any) => {
       modalHeader.header = value;
       openModalCheck.value = !openModalCheck.value;

@@ -45,13 +45,14 @@
         </button>
       </div>
       <div class="login_sign_password">
-        <nuxt-link
+        <!-- <nuxt-link
           :to="'user/signup'"
           @click.native="closeModal"
           class="sign_btn"
         >
           회원가입하기
-        </nuxt-link>
+        </nuxt-link> -->
+        <span @click="openSignupDetail" class="sign_btn">회원가입하기</span>
         <span>비밀번호 찾기</span>
       </div>
     </div>
@@ -86,8 +87,18 @@ export default {
       loginOption.idSave = !!value.includes('아이디저장');
       console.log(loginOption.autoLogin, loginOption.idSave);
     };
+    const openSignupDetail = () => {
+      return emit('openSignupDetail');
+    };
 
-    return { closeModal, checkBoxItems, getCheckbox, arrPicker, loginOption };
+    return {
+      closeModal,
+      checkBoxItems,
+      getCheckbox,
+      arrPicker,
+      loginOption,
+      openSignupDetail,
+    };
   },
 };
 </script>
@@ -204,6 +215,9 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 47.5px;
+      .sign_btn {
+        cursor: pointer;
+      }
       a,
       span {
         font-size: 14px;
