@@ -12,12 +12,15 @@
         :inputWidth="'100%'"
         :inputLabelID="'이메일 아이디'"
         :inputBorderRadius="'50px'"
+        @SetInputValue="getEmail"
         :placeholder="'예) email@email.co.kr'"
       ></commonInput>
       <commonInput
         :inputWidth="'100%'"
         :inputLabelID="'비밀번호'"
-        :validation="false"
+        :validation="true"
+        :signupPageNopadding="true"
+        @SetInputValue="getPassword"
         :inputBorderRadius="'50px'"
       ></commonInput>
       <customCheckBox
@@ -25,7 +28,7 @@
         :marginRight="'38px'"
         @setCheckbox="getCheckbox"
       ></customCheckBox>
-      <button class="login_btn">
+      <button class="login_btn" @click="login">
         로그인
       </button>
       <div class="login_easy">
@@ -45,13 +48,6 @@
         </button>
       </div>
       <div class="login_sign_password">
-        <!-- <nuxt-link
-          :to="'user/signup'"
-          @click.native="closeModal"
-          class="sign_btn"
-        >
-          회원가입하기
-        </nuxt-link> -->
         <span @click="openSignupDetail" class="sign_btn">회원가입하기</span>
         <span>비밀번호 찾기</span>
       </div>
@@ -59,10 +55,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import commonInput from '@/components/common/common-input.vue';
-import { reactive } from '@nuxtjs/composition-api';
+import { reactive, useContext } from '@nuxtjs/composition-api';
 import customCheckBox from '@/components/common/common-checkbox.vue';
+import { NuxtAxiosInstance } from '@nuxtjs/axios';
+
+export function useAxios(): NuxtAxiosInstance {
+  const { $axios } = useContext();
+  if (!$axios) {
+    throw new Error('nuxt axios is not defined!');
+  }
+  return $axios;
+}
 export default {
   name: 'login-modal',
   components: {
@@ -70,10 +75,17 @@ export default {
     customCheckBox,
   },
   setup(props, { emit }) {
+    const { $axios } = useContext();
+
     const closeModal = () => {
       return emit('closeModal');
     };
     const arrPicker = reactive([]);
+    const formData = reactive({
+      email: '',
+      password: '',
+      platform: 'basic',
+    });
     const loginOption = reactive({
       autoLogin: false,
       idSave: false,
@@ -82,7 +94,7 @@ export default {
       { id: '아이디저장', check: true },
       { id: '자동로그인', check: false },
     ];
-    const getCheckbox = value => {
+    const getCheckbox = (value: string) => {
       loginOption.autoLogin = !!value.includes('자동로그인');
       loginOption.idSave = !!value.includes('아이디저장');
       console.log(loginOption.autoLogin, loginOption.idSave);
@@ -90,7 +102,39 @@ export default {
     const openSignupDetail = () => {
       return emit('openSignupDetail');
     };
-
+    const getEmail = (value: string) => {
+      formData.email = value;
+    };
+    const getPassword = (value: string) => {
+      formData.password = value;
+    };
+    const login = () => {
+      if (formData.password.length === 0 || formData.email.length === 0) {
+        alert('이메일 또는 비밀번호가 공백입니다. 다시한번 확인해주세요');
+      } else {
+        $axios
+          .post('api/login', formData)
+          .then(() => {
+            $axios
+              .get('api/user', {
+                params: {
+                  email: 'whdgns3242@naver.com',
+                },
+              })
+              .then(res => {
+                console.log(res);
+              })
+              .catch(err => {
+                console.log('dddsds', err);
+                alert('다시한번 확인해주세요. 실패했습니다.');
+              });
+          })
+          .catch(err => {
+            console.log('dddsds', err);
+            alert('다시한번 확인해주세요. 실패했습니다.');
+          });
+      }
+    };
     return {
       closeModal,
       checkBoxItems,
@@ -98,6 +142,9 @@ export default {
       arrPicker,
       loginOption,
       openSignupDetail,
+      login,
+      getEmail,
+      getPassword,
     };
   },
 };

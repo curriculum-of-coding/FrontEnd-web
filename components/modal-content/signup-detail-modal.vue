@@ -233,8 +233,7 @@ export default {
             .post('api/register', formData)
             .then(res => {
               store.dispatch('signupSuccess/setSignupStatus', true);
-              root.$router.push('/');
-              console.log(res);
+              emit('closeModalSignupDetail');
             })
             .catch(err => {
               console.log('dddsds', err);

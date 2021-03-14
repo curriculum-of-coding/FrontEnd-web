@@ -11,7 +11,7 @@
         @input="updateValue($event.target.value)"
       />
     </label>
-    <span class="validation">
+    <span class="validation" :class="[signupPageNopadding ? 'actvie' : '']">
       <span v-show="!validation">
         {{ validationContent }}
       </span>
@@ -62,6 +62,10 @@ export default {
       type: String,
       default: '',
     },
+    signupPageNopadding: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const selectOptionPicker = '';
@@ -110,6 +114,10 @@ export default {
     justify-content: flex-start;
     align-items: center;
     margin-top: 10px;
+    &.actvie {
+      padding-bottom: 0;
+      margin-top: 0;
+    }
 
     .defalut_validation_area {
       margin-left: 15px;
