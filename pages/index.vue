@@ -24,9 +24,6 @@ export default {
     return { tabItem };
   },
 
-  data() {
-    return {};
-  },
   components: {
     tabMenu,
     commonPagination,

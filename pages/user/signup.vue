@@ -13,6 +13,7 @@
           :validation="ValidationChecker.email"
           :validationContent="emailValidationCotent"
           @SetInputValue="getEmail"
+          @SetInputValueFocusOut="sameAsEmailAndNick('email', formData.email)"
         ></customInput>
       </div>
       <div class="input_area">
@@ -21,8 +22,11 @@
           :inputType="'text'"
           :inputBorderRadius="'50px'"
           :validation="ValidationChecker.nickname"
-          :validationContent="'중복된 닉네임입니다.'"
+          :validationContent="nicknameValidationCotent"
           @SetInputValue="getNickName"
+          @SetInputValueFocusOut="
+            sameAsEmailAndNick('nickname', formData.nickname)
+          "
         ></customInput>
       </div>
       <div class="input_area">
@@ -79,7 +83,13 @@ import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 import customCheckBoxSignUp from '@/components/common/common-checkbox-signup.vue';
-import { reactive, useContext, ref, Ref } from '@nuxtjs/composition-api';
+import {
+  reactive,
+  useContext,
+  ref,
+  Ref,
+  computed,
+} from '@nuxtjs/composition-api';
 import signUp from '~/types/signup/signup';
 import interCheckbox from '~/types/signup/interCheckbox';
 import passwordSelect from '~/types/signup/passwordSelect';
@@ -102,8 +112,10 @@ export default {
     customCheckBox,
     customCheckBoxSignUp,
   },
-  setup() {
-    const { $axios } = useContext();
+  setup(props: any, { root }: any) {
+    const { $axios, store } = useContext();
+    const signupStatus = computed(() => store.state.signupSuccess.signupStatus);
+    console.log(store.state.signupSuccess.signupStatus);
 
     const passwordSelect: passwordSelect[] = [
       {
@@ -127,56 +139,68 @@ export default {
     ];
     let ValidationChecker = reactive({
       email: true,
-      nickName: true,
+      nickname: true,
       password: true,
       passwordAnswer: true,
     });
 
     const formData: signUp = {
-      EMAIL: '',
-      password: '',
-      nickname: '!',
+      email: 'whdgns3242@naver.com',
+      password: 'gnswhd3242!',
+      nickname: '닉네임',
       PWDQuestType: '당신이 다닌 초등학교의 이름은?',
-      PWDAnswer: '',
+      PWDAnswer: '답변',
       interest: {
         front: 'N',
-        back: 'N',
+        back: 'Y',
         devops: 'N',
       },
-      TOS: 'N',
-      PP: 'N',
+      TOS: 'Y',
+      PP: 'Y',
     };
     let emailValidationCotent: Ref<string> = ref(
       '올바른 이메일 주소를 입력해주세요.',
     );
-
+    let nicknameValidationCotent: Ref<string> = ref(
+      '중복된 닉네임 입니다 다시 입력해주세요.',
+    );
     const sameAsEmailAndNick = (type: string, value: string) => {
-      let paramType = '';
-      value === 'email' ? (paramType = 'email') : (paramType = 'nickname');
+      const params = new URLSearchParams();
+      params.append(`type`, type);
+      params.append(`${type}`, value);
       $axios
         .get('http://localhost:3000/api/check', {
-          params: {
-            type: paramType,
-            paramType: value,
-          },
+          params: params,
         })
         .then(res => {
-          console.log(res);
+          if (res.status === 200 && `${type}` == 'email') {
+            ValidationChecker.email = true;
+          }
+          if (res.status === 200 && `${type}` == 'nickname') {
+            ValidationChecker.nickname = true;
+          }
         })
         .catch(err => {
-          console.log('dddsds', err);
+          if (err.request.status == 400 && `${type}` === 'email') {
+            ValidationChecker.email = false;
+            emailValidationCotent.value = '중복된 이메일입니다.';
+          }
+          if (err.request.status == 400 && `${type}` == 'nickname') {
+            ValidationChecker.nickname = false;
+            console.log(
+              'dsdsds',
+              formData.nickname,
+              ValidationChecker.nickname,
+            );
+          }
         });
     };
     const getEmail = (value: string) => {
-      ValidationChecker.email = emailRule.test(value);
-      if (ValidationChecker.email) {
-        formData.EMAIL = value;
-        sameAsEmailAndNick('email', formData.EMAIL);
-      }
+      formData.email = value;
+      ValidationChecker.email = emailRule.test(formData.email);
     };
     const getNickName = (value: string) => {
       formData.nickname = value;
-      sameAsEmailAndNick('nickname', formData.nickname);
     };
     const getPassword = (value: string) => {
       formData.password = value;
@@ -188,7 +212,6 @@ export default {
     };
 
     const getPWSelect = (value: string) => {
-      console.log(value);
       return (formData.PWDQuestType = value);
     };
     const getCheckbox = (value: string[]) => {
@@ -201,20 +224,21 @@ export default {
       } else {
         if (
           ValidationChecker.email &&
-          ValidationChecker.nickName &&
+          ValidationChecker.nickname &&
           ValidationChecker.password &&
           ValidationChecker.passwordAnswer
         ) {
           $axios
             .post('api/register', formData)
             .then(res => {
+              store.dispatch('signupSuccess/setSignupStatus', true);
+              root.$router.push('/');
               console.log(res);
             })
             .catch(err => {
               console.log('dddsds', err);
+              alert('다시한번 확인해주세요.실패했습니다.');
             });
-        } else {
-          alert('다시한번 확인해주세요.실패했습니다.');
         }
       }
     };
@@ -256,6 +280,8 @@ export default {
       emailValidationCotent,
       getNickName,
       ValidationChecker,
+      nicknameValidationCotent,
+      signupStatus,
     };
   },
 };

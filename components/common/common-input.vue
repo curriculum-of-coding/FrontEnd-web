@@ -7,6 +7,7 @@
         :type="inputType"
         :id="inputLabelID"
         :placeholder="placeholder"
+        @blur="focusOutEvent($event.target.value)"
         @input="updateValue($event.target.value)"
       />
     </label>
@@ -67,7 +68,10 @@ export default {
     const updateValue = value => {
       return emit('SetInputValue', value);
     };
-    return { updateValue, selectOptionPicker };
+    const focusOutEvent = value => {
+      return emit('SetInputValueFocusOut', value);
+    };
+    return { updateValue, selectOptionPicker, focusOutEvent };
   },
 };
 </script>

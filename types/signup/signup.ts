@@ -1,5 +1,5 @@
 type signUp = {
-  EMAIL: string,
+  email: string,
   password: string,
   nickname: string,
   PWDQuestType: string,

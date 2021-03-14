@@ -15,6 +15,9 @@
         </header-menu>
       </div>
       <div class="content" data-app="true">
+        <v-snackbar :timeout="3000" :value="true" centered top v-if="status">
+          회원가입이 완료 되었습니다. 로그인 해주세요.
+        </v-snackbar>
         <Nuxt></Nuxt>
       </div>
       <commonAllUseModal
@@ -36,6 +39,7 @@ import {
   computed,
   onMounted,
   watchEffect,
+  watch,
   reactive,
 } from '@nuxtjs/composition-api';
 
@@ -45,6 +49,9 @@ export default {
     let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
     let modalContent = reactive({ content: '' });
+    const { store } = useContext();
+
+    let status = computed(() => store.state.signupSuccess.signupStatus);
 
     const openModal = (value: any) => {
       modalContent.content = value;
@@ -68,6 +75,14 @@ export default {
         subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
       },
     ];
+    watch(
+      () => status,
+      (newVal, oldVal) => {
+        if (newVal != oldVal) {
+          status = newVal;
+        }
+      },
+    );
     onMounted(() => {
       watchEffect(() => {
         route.value.path.includes('user')
@@ -84,6 +99,7 @@ export default {
       modalHeader,
       openModalCheck,
       modalContent,
+      status,
     };
   },
   components: {
