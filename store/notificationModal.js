@@ -1,5 +1,5 @@
 export const state = () => ({
-  notification: true,
+  notification: false,
   notificationCode: 1,
   notificationContent: '회원가입',
 });

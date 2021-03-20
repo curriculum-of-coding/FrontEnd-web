@@ -233,6 +233,8 @@ export default {
             .post('api/register', formData)
             .then(res => {
               store.dispatch('signupSuccess/setSignupStatus', true);
+              store.dispatch('signupSuccess/setSignupEmail', formData.email);
+              store.dispatch('notificationModal/setNotificationStatus', true);
               emit('closeModalSignupDetail');
             })
             .catch(err => {

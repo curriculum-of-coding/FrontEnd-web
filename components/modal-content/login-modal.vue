@@ -18,6 +18,7 @@
       <commonInput
         :inputWidth="'100%'"
         :inputLabelID="'비밀번호'"
+        :inputType="`password`"
         :validation="true"
         :signupPageNopadding="true"
         @SetInputValue="getPassword"
@@ -57,7 +58,12 @@
 
 <script lang="ts">
 import commonInput from '@/components/common/common-input.vue';
-import { reactive, useContext } from '@nuxtjs/composition-api';
+import {
+  reactive,
+  useContext,
+  computed,
+  watchEffect,
+} from '@nuxtjs/composition-api';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
 
@@ -75,8 +81,12 @@ export default {
     customCheckBox,
   },
   setup(props, { emit }) {
-    const { $axios } = useContext();
-
+    const { $axios, store } = useContext();
+    const signupStatus = computed(() => store.state.signupSuccess);
+    const loginStatus = computed(() => store.state.loginSuccess);
+    watchEffect(() => {
+      signupStatus;
+    });
     const closeModal = () => {
       return emit('closeModal');
     };
@@ -113,19 +123,28 @@ export default {
         alert('이메일 또는 비밀번호가 공백입니다. 다시한번 확인해주세요');
       } else {
         $axios
-          .post('api/login', formData)
-          .then(() => {
+          .$post('api/login', formData)
+          .then(res => {
+            store.dispatch('loginSuccess/setLoginToken', res.data.token);
             $axios
-              .get('api/user', {
+              .$get('api/user', {
                 params: {
-                  email: 'whdgns3242@naver.com',
+                  email: formData.email,
                 },
               })
               .then(res => {
-                console.log(res);
+                store.dispatch('notificationModal/setNotificationStatus', true);
+                store.dispatch('notificationModal/setNotificationCode', 1);
+                store.dispatch(
+                  'notificationModal/setNotificationContent',
+                  '로그인',
+                );
+                store.dispatch('loginSuccess/setUserInfo', res.data);
+                closeModal();
               })
               .catch(err => {
-                console.log('dddsds', err);
+                console.log(err);
+
                 alert('다시한번 확인해주세요. 실패했습니다.');
               });
           })
@@ -145,6 +164,8 @@ export default {
       login,
       getEmail,
       getPassword,
+      signupStatus,
+      loginStatus,
     };
   },
 };
