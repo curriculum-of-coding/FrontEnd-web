@@ -29,6 +29,7 @@
         :modal-content="modalContent.content"
         :modal-header="modalHeader.header"
       ></commonAllUseModal>
+      <commonNotificationModal></commonNotificationModal>
     </div>
   </div>
 </template>
@@ -37,6 +38,7 @@
 import headerMenu from '~/components/ui/top-header.vue';
 import sideMenu from '~/components/ui/side-menu.vue';
 import commonAllUseModal from '~/components/common/common-vuetify-modal-all-use.vue';
+import commonNotificationModal from '~/components/common/common-notification-modal.vue';
 
 import {
   useContext,
@@ -121,6 +123,7 @@ export default {
     sideMenu,
     headerMenu,
     commonAllUseModal,
+    commonNotificationModal,
   },
 };
 </script>
