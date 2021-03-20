@@ -140,6 +140,8 @@ export default {
                   '로그인',
                 );
                 store.dispatch('loginSuccess/setUserInfo', res.data);
+                console.log(loginStatus);
+
                 closeModal();
               })
               .catch(err => {

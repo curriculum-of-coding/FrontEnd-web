@@ -8,7 +8,7 @@
       <dt>{{ menuTitle.name }}</dt>
       <dd v-if="menuTitle.subTitle.length > 1">{{ menuTitle.subTitle }}</dd>
     </dl>
-    <div class="btn_wrap" v-if="mainPageShow">
+    <div class="btn_wrap" v-if="mainPageShow && !loginStatus.userInfo.email">
       <button class="login" @click="modalOpen('login')">로그인</button>
       <button class="login" @click="modalOpen('signup')">회원가입</button>
       <!-- TODO:삭제예정 -->
@@ -16,11 +16,17 @@
         비밀번호 변경
       </button>
     </div>
+    <div v-else>
+      <span>
+        {{ loginStatus.userInfo.nickname }}
+      </span>
+      <div @click="logout">로그아웃</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, useContext } from '@nuxtjs/composition-api';
+import { computed, useContext, watchEffect } from '@nuxtjs/composition-api';
 export default {
   name: 'top-header',
   props: {
@@ -37,12 +43,24 @@ export default {
   setup(props: any, { emit }: any) {
     const { store } = useContext();
     const menuTitle = computed(() => store.state.menuTitle.menuTitle);
+    const loginStatus = computed(() => store.state.loginSuccess);
+    watchEffect(() => {
+      loginStatus;
+    });
+    const logout = () => {
+      store.dispatch('notificationModal/setNotificationStatus', true);
+      store.dispatch('notificationModal/setNotificationCode', 1);
+      store.dispatch('notificationModal/setNotificationContent', '로그아웃');
+      return store.dispatch('loginSuccess/setUserInfo', {});
+    };
     const modalOpen = (value: any) => {
       return emit('openModal', value);
     };
     return {
       menuTitle,
       modalOpen,
+      loginStatus,
+      logout,
     };
   },
 };

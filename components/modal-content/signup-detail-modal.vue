@@ -235,6 +235,11 @@ export default {
               store.dispatch('signupSuccess/setSignupStatus', true);
               store.dispatch('signupSuccess/setSignupEmail', formData.email);
               store.dispatch('notificationModal/setNotificationStatus', true);
+              store.dispatch(
+                'notificationModal/setNotificationContent',
+                '회원가입',
+              );
+
               emit('closeModalSignupDetail');
             })
             .catch(err => {
