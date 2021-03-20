@@ -112,7 +112,7 @@ export default {
     customCheckBox,
     customCheckBoxSignUp,
   },
-  setup(props: any, { root, emit }: any) {
+  setup(props: any, { emit }: any) {
     const { $axios, store } = useContext();
     const signupStatus = computed(() => store.state.signupSuccess.signupStatus);
     console.log(store.state.signupSuccess.signupStatus);
@@ -231,7 +231,7 @@ export default {
         ) {
           $axios
             .post('api/register', formData)
-            .then(res => {
+            .then(() => {
               store.dispatch('signupSuccess/setSignupStatus', true);
               store.dispatch('signupSuccess/setSignupEmail', formData.email);
               store.dispatch('notificationModal/setNotificationStatus', true);

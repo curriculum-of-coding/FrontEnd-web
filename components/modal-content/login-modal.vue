@@ -144,7 +144,6 @@ export default {
               })
               .catch(err => {
                 console.log(err);
-
                 alert('다시한번 확인해주세요. 실패했습니다.');
               });
           })
