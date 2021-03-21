@@ -9,6 +9,7 @@
         <customInput
           :inputLabelID="'아이디'"
           :placeholder="'회원가입했던 아이디를 입력해주세요'"
+          @SetInputValue="getEmail"
         ></customInput>
         <customSelectBox
           :selectLabelID="'비밀번호 찾기 질문'"
@@ -18,6 +19,7 @@
         <customInput
           :inputLabelID="'비밀번호 찾기 답변'"
           :placeholder="'비밀번호 찾기 답변을 입력해주세요.'"
+          @SetInputValue="getPasswordAnswer"
         ></customInput>
         <div class="btn_area" @click="checkUserInfoCorrect">
           비밀번호 찾기
@@ -30,12 +32,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import customSelectBox from '@/components/common/common-select.vue';
 import customInput from '@/components/common/common-input-radius.vue';
-import passwordChangeModal from '@/components/modal-content/password-change-modal';
+import passwordChangeModal from '@/components/modal-content/password-change-modal.vue';
+import { reactive, ref, useContext } from '@nuxtjs/composition-api';
+import { NuxtAxiosInstance } from '@nuxtjs/axios';
 
-import { ref, watch, reactive } from '@nuxtjs/composition-api';
+export function useAxios(): NuxtAxiosInstance {
+  const { $axios } = useContext();
+  if (!$axios) {
+    throw new Error('nuxt axios is not defined!');
+  }
+  return $axios;
+}
 export default {
   name: 'email-check-modal',
   props: {
@@ -49,30 +59,66 @@ export default {
     passwordChangeModal,
   },
   setup(props, { emit }) {
+    const { $axios, store } = useContext();
+
     let checkUserinfo = ref(false);
     const passwordSelect = [
       {
-        PWD_QUEST_TYPE: 0,
-        options: '1+1은?',
+        options: '당신이 다닌 초등학교의 이름은?',
       },
       {
-        PWD_QUEST_TYPE: 1,
         options: '처음으로 키운 강아지 이름은?',
       },
       {
-        PWD_QUEST_TYPE: 2,
         options: '태어난 동네 이름은?',
       },
     ];
+    const checkUserChangePassword = reactive({
+      email: '',
+      quiz: '당신이 다닌 초등학교의 이름은?',
+      answer: '',
+    });
     const checkUserInfoCorrect = () => {
-      checkUserinfo.value = true;
+      $axios
+        .$post('api/account/password', {
+          ...checkUserChangePassword,
+        })
+        .then(res => {
+          store.dispatch('loginSuccess/setLoginToken', res.data.token);
+          checkUserinfo.value = true;
+        })
+        .catch(() => {
+          store.dispatch('notificationModal/setNotificationOption', {
+            notification: true,
+            notificationCode: 0,
+            notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+          });
+        });
     };
     const closeModal = () => {
       checkUserinfo.value = false;
-      return emit('closeModal');
+      return emit('closeModal', 'passwordChange');
+    };
+    const getPWSelect = (value: string) => {
+      checkUserChangePassword.quiz = value;
+    };
+    const getEmail = (value: string) => {
+      checkUserChangePassword.email = value;
+    };
+    const getPasswordAnswer = (value: string) => {
+      checkUserChangePassword.answer = value;
     };
 
-    return { closeModal, passwordSelect, checkUserinfo, checkUserInfoCorrect };
+    return {
+      closeModal,
+      passwordSelect,
+      checkUserinfo,
+      checkUserInfoCorrect,
+      getPWSelect,
+      checkUserChangePassword,
+      getEmail,
+      getPasswordAnswer,
+    };
   },
 };
 </script>

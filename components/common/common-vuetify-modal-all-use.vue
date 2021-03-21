@@ -15,12 +15,13 @@
           @openSignupDetail="openSignupDetail"
         ></signUpModal>
         <loginModal
+          @openChangePassword="openPasswordChange"
           @closeModal="close"
-          v-if="modalContent === 'login' && !singupDetail"
+          v-if="modalContent === 'login' && !singupDetail && !openPasswordModal"
           @openSignupDetail="openSignupDetail"
         ></loginModal>
         <emailCheckModal
-          v-if="modalContent === 'passwordChange'"
+          v-if="openPasswordModal"
           :headerTitle="'비밀번호 찾기'"
           @closeModal="close"
         ></emailCheckModal>
@@ -41,7 +42,7 @@ import loginModal from '@/components/modal-content/login-modal.vue';
 import emailCheckModal from '@/components/modal-content/email-check-modal.vue';
 import signupDetailModal from '@/components/modal-content/signup-detail-modal.vue';
 
-import { reactive } from '@nuxtjs/composition-api';
+import { reactive, ref } from '@nuxtjs/composition-api';
 
 export default {
   name: 'common-vuetify-modal',
@@ -67,8 +68,16 @@ export default {
   },
   setup(props, { emit }) {
     let openModalCheck = reactive({ props });
-    const close = () => {
-      return emit('setModal', openModalCheck.setModal);
+    const openPasswordModal = ref(false);
+
+    const openPasswordChange = () => {
+      openPasswordModal.value = !openPasswordModal.value;
+    };
+    const close = value => {
+      if (value == 'passwordChange') {
+        openPasswordModal.value = false;
+        emit('setModal', openModalCheck.setModal);
+      } else return emit('setModal', openModalCheck.setModal);
     };
     const openSignupDetail = () => {
       return emit('openSignupDetail', 'signupDetail');
@@ -76,7 +85,14 @@ export default {
     const closeSignupDetailModal = () => {
       return emit('closeSignupDetailModal');
     };
-    return { close, openModalCheck, openSignupDetail, closeSignupDetailModal };
+    return {
+      close,
+      openModalCheck,
+      openSignupDetail,
+      closeSignupDetailModal,
+      openPasswordChange,
+      openPasswordModal,
+    };
   },
 };
 </script>

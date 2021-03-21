@@ -11,29 +11,84 @@
       <customInput
         :inputLabelID="'비밀번호 재설정'"
         :placeholder="'8자리 이상 / 영문, 숫자, 특수문자 사용'"
+        @SetInputValue="getPassword"
       ></customInput>
-      <div class="btn_area">
+      <div class="btn_area" @click="changePassword">
         비밀번호 재설정
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import customInput from '@/components/common/common-input-radius.vue';
 
-import {} from '@nuxtjs/composition-api';
+import { computed, useContext, ref, reactive } from '@nuxtjs/composition-api';
+import { NuxtAxiosInstance } from '@nuxtjs/axios';
+
+export function useAxios(): NuxtAxiosInstance {
+  const { $axios } = useContext();
+  if (!$axios) {
+    throw new Error('nuxt axios is not defined!');
+  }
+  return $axios;
+}
 export default {
   name: 'password-change-modal',
   components: {
     customInput,
   },
+
   setup(props, { emit }) {
+    const { $axios, store } = useContext();
+    const loginStatus = computed(() => store.state.loginSuccess);
+    const passwordContent = reactive({
+      newPassword: '',
+    });
     const closeModal = () => {
       return emit('closeModal');
     };
-
-    return { closeModal };
+    const getPassword = (value: string) => {
+      passwordContent.newPassword = value;
+    };
+    const changePassword = () => {
+      $axios
+        .$put(
+          'api/account/password',
+          {
+            ...passwordContent,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${loginStatus.value.loginToken}`,
+            },
+          },
+        )
+        .then(() => {
+          store.dispatch('notificationModal/setNotificationOption', {
+            notification: true,
+            notificationCode: 1,
+            notificationContent:
+              '비밀번호 변경이 성공했습니다. 다시 한번 로그인 해주세요',
+          });
+          store.dispatch('loginSuccess/setUserInfo', {});
+          closeModal();
+        })
+        .catch(() => {
+          store.dispatch('notificationModal/setNotificationOption', {
+            notification: true,
+            notificationCode: 0,
+            notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+          });
+        });
+    };
+    return {
+      closeModal,
+      loginStatus,
+      changePassword,
+      getPassword,
+      passwordContent,
+    };
   },
 };
 </script>
