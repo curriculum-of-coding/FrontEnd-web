@@ -1,30 +1,21 @@
+//notificationCode 0:실패 1:성공
 export const state = () => ({
-  notification: false,
-  notificationCode: 1,
-  notificationContent: '회원가입',
+  notificationOption: {
+    notification: false,
+    notificationCode: 1,
+    notificationContent: '회원가입',
+  },
 });
 
 export const mutations = {
-  setNotificationStatus(state, notification) {
-    state.notification = notification;
-  },
-  setNotificationCode(state, notificationCode) {
-    state.notification = notificationCode;
-  },
-  setNotificationContent(state, notificationContent) {
-    state.notificationContent = notificationContent;
+  setNotificationOption(state, notificationOption) {
+    state.notificationOption = notificationOption;
   },
 };
 
 export const actions = {
-  setNotificationStatus: ({ commit }, notification) => {
-    commit('setNotificationStatus', notification);
-  },
-  setNotificationCode: ({ commit }, notificationCode) => {
-    commit('setNotificationCode', notificationCode);
-  },
-  setNotificationContent: ({ commit }, notificationContent) => {
-    commit('setNotificationContent', notificationContent);
+  setNotificationOption: ({ commit }, notificationOption) => {
+    commit('setNotificationOption', notificationOption);
   },
 };
 export const strict = false;
