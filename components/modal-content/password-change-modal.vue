@@ -44,6 +44,7 @@ export default {
     const loginStatus = computed(() => store.state.loginSuccess);
     const passwordContent = reactive({
       newPassword: '',
+      oldPassword: 'dsadsdsdsdsd',
     });
     const closeModal = () => {
       return emit('closeModal');
