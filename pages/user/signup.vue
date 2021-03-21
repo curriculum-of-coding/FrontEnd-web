@@ -115,7 +115,6 @@ export default {
   setup(props: any, { root }: any) {
     const { $axios, store } = useContext();
     const signupStatus = computed(() => store.state.signupSuccess.signupStatus);
-    console.log(store.state.signupSuccess.signupStatus);
 
     const passwordSelect: passwordSelect[] = [
       {
@@ -187,11 +186,6 @@ export default {
           }
           if (err.request.status == 400 && `${type}` == 'nickname') {
             ValidationChecker.nickname = false;
-            console.log(
-              'dsdsds',
-              formData.nickname,
-              ValidationChecker.nickname,
-            );
           }
         });
     };
@@ -233,10 +227,8 @@ export default {
             .then(res => {
               store.dispatch('signupSuccess/setSignupStatus', true);
               root.$router.push('/');
-              console.log(res);
             })
-            .catch(err => {
-              console.log('dddsds', err);
+            .catch(() => {
               alert('다시한번 확인해주세요.실패했습니다.');
             });
         }

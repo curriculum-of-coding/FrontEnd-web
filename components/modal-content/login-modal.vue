@@ -50,7 +50,7 @@
       </div>
       <div class="login_sign_password">
         <span @click="openSignupDetail" class="sign_btn">회원가입하기</span>
-        <span>비밀번호 찾기</span>
+        <span @click="openChangePassword">비밀번호 찾기</span>
       </div>
     </div>
   </div>
@@ -90,6 +90,9 @@ export default {
     const closeModal = () => {
       return emit('closeModal');
     };
+    const openChangePassword = () => {
+      return emit('openChangePassword');
+    };
     const arrPicker = reactive([]);
     const formData = reactive({
       email: '',
@@ -107,7 +110,6 @@ export default {
     const getCheckbox = (value: string) => {
       loginOption.autoLogin = !!value.includes('자동로그인');
       loginOption.idSave = !!value.includes('아이디저장');
-      console.log(loginOption.autoLogin, loginOption.idSave);
     };
     const openSignupDetail = () => {
       return emit('openSignupDetail');
@@ -120,7 +122,12 @@ export default {
     };
     const login = () => {
       if (formData.password.length === 0 || formData.email.length === 0) {
-        alert('이메일 또는 비밀번호가 공백입니다. 다시한번 확인해주세요');
+        store.dispatch('notificationModal/setNotificationOption', {
+          notification: true,
+          notificationCode: 0,
+          notificationContent:
+            '이메일 또는 비밀번호가 공백입니다. 다시한번 확인해주세요',
+        });
       } else {
         $axios
           .$post('api/login', formData)
@@ -133,25 +140,28 @@ export default {
                 },
               })
               .then(res => {
-                store.dispatch('notificationModal/setNotificationStatus', true);
-                store.dispatch('notificationModal/setNotificationCode', 1);
-                store.dispatch(
-                  'notificationModal/setNotificationContent',
-                  '로그인',
-                );
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 1,
+                  notificationContent: '로그인이 성공했습니다! ',
+                });
                 store.dispatch('loginSuccess/setUserInfo', res.data);
-                console.log(loginStatus);
-
                 closeModal();
               })
-              .catch(err => {
-                console.log(err);
-                alert('다시한번 확인해주세요. 실패했습니다.');
+              .catch(() => {
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 0,
+                  notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+                });
               });
           })
-          .catch(err => {
-            console.log('dddsds', err);
-            alert('다시한번 확인해주세요. 실패했습니다.');
+          .catch(() => {
+            store.dispatch('notificationModal/setNotificationOption', {
+              notification: true,
+              notificationCode: 0,
+              notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+            });
           });
       }
     };
@@ -167,6 +177,7 @@ export default {
       getPassword,
       signupStatus,
       loginStatus,
+      openChangePassword,
     };
   },
 };

@@ -11,10 +11,6 @@
     <div class="btn_wrap" v-if="mainPageShow && !loginStatus.userInfo.email">
       <button class="login" @click="modalOpen('login')">로그인</button>
       <button class="login" @click="modalOpen('signup')">회원가입</button>
-      <!-- TODO:삭제예정 -->
-      <button class="login" @click="modalOpen('passwordChange')">
-        비밀번호 변경
-      </button>
     </div>
     <div v-else>
       <span>
@@ -48,9 +44,11 @@ export default {
       loginStatus;
     });
     const logout = () => {
-      store.dispatch('notificationModal/setNotificationStatus', true);
-      store.dispatch('notificationModal/setNotificationCode', 1);
-      store.dispatch('notificationModal/setNotificationContent', '로그아웃');
+      store.dispatch('notificationModal/setNotificationOption', {
+        notification: true,
+        notificationCode: 1,
+        notificationContent: '로그아웃이 성공적으로 완료되었습니다!',
+      });
       return store.dispatch('loginSuccess/setUserInfo', {});
     };
     const modalOpen = (value: any) => {

@@ -115,7 +115,6 @@ export default {
   setup(props: any, { emit }: any) {
     const { $axios, store } = useContext();
     const signupStatus = computed(() => store.state.signupSuccess.signupStatus);
-    console.log(store.state.signupSuccess.signupStatus);
 
     const passwordSelect: passwordSelect[] = [
       {
@@ -165,9 +164,7 @@ export default {
       '중복된 닉네임 입니다 다시 입력해주세요.',
     );
     const sameAsEmailAndNick = (type: string, value: string) => {
-      console.log('시발 여길왜탄', value.length);
       if (value.length !== 0) {
-        console.log(value.length, 'tlsald;ksad;lsakd;saldksa;ldksa;ldk');
         const params = new URLSearchParams();
         params.append(`type`, type);
         params.append(`${type}`, value);
@@ -221,7 +218,11 @@ export default {
 
     const onSubmit = () => {
       if (!formData.TOS || !formData.PP) {
-        alert('필수항목');
+        store.dispatch('notificationModal/setNotificationOption', {
+          notification: true,
+          notificationCode: 0,
+          notificationContent: '필수 항목을 선택해주세요.',
+        });
       } else {
         if (
           ValidationChecker.email &&
@@ -234,17 +235,20 @@ export default {
             .then(() => {
               store.dispatch('signupSuccess/setSignupStatus', true);
               store.dispatch('signupSuccess/setSignupEmail', formData.email);
-              store.dispatch('notificationModal/setNotificationStatus', true);
-              store.dispatch(
-                'notificationModal/setNotificationContent',
-                '회원가입',
-              );
-
+              store.dispatch('notificationModal/setNotificationOption', {
+                notification: true,
+                notificationCode: 1,
+                notificationContent: '회원가입을 축하합니다.',
+              });
               emit('closeModalSignupDetail');
             })
             .catch(err => {
-              console.log('dddsds', err);
-              alert('다시한번 확인해주세요.실패했습니다.');
+              if (err.message.includes('400'))
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 0,
+                  notificationContent: '다시 한번 시도해주세요',
+                });
             });
         }
       }

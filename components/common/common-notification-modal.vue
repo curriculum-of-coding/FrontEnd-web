@@ -17,18 +17,13 @@
         </v-card-title>
 
         <v-card-text>
-          <div v-if="notificationStore.notificationCode === 0">
-            {{ notificationStore.notificationContent }}가 발생했습니다. 다시한번
-            시도해주세요.
-          </div>
-          <div v-if="notificationStore.notificationCode === 1">
-            {{ notificationStore.notificationContent }}이 성공했습니다!
+          <div>
+            {{ notificationStore.notificationContent }}
           </div>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn color="green darken-1" text @click="close">
             확인
           </v-btn>
@@ -45,10 +40,13 @@ export default {
   name: 'common-notification-modal',
   setup() {
     const { store } = useContext();
-    const notificationStore = computed(() => store.state.notificationModal);
-
+    const notificationStore = computed(
+      () => store.state.notificationModal.notificationOption,
+    );
     const close = () => {
-      store.dispatch('notificationModal/setNotificationStatus', false);
+      store.dispatch('notificationModal/setNotificationOption', {
+        notification: false,
+      });
     };
 
     return {
