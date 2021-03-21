@@ -44,7 +44,7 @@
       ></normalList>
     </div>
     <div class="pagenation_area">
-      <common-pagination :page="5" :total-page="5"> </common-pagination>
+      <commonCutsomPaging :page="5" :total-page="5"> </commonCutsomPaging>
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ import AccountSyncCard from '../components/cards/AccountSyncCard.vue';
 import SearchInput from '../components/inputs/SearchInput.vue';
 import tabMenu from '@/components/tab-menu.vue';
 import normalList from '@/components/board/normal-board/normal-board-list.vue';
-import commonPagination from '~/components/common/common-pagination.vue';
+import commonCutsomPaging from '~/components/common/common-pagination.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 
 import { reactive } from '@nuxtjs/composition-api';
@@ -67,7 +67,7 @@ export default Vue.extend({
     tabMenu,
     normalList,
     customCheckBox,
-    commonPagination,
+    commonCutsomPaging,
   },
   setup() {
     const userInformation = reactive({
