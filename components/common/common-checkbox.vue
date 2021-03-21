@@ -70,7 +70,6 @@ export default {
   setup(props, { emit }) {
     let checkBoxPicker = reactive([]);
     const setCheckbox = value => {
-      console.log('value', value);
       return emit('setCheckbox', value);
     };
 

@@ -74,7 +74,6 @@ export default {
     };
     const titleValue = (v, index) => {
       form.curriculumList[index].title = v;
-      console.log(form.curriculumList);
     };
     const youtubeLinkValue = (v, index) => {
       form.curriculumList[index].youtube = v;
@@ -93,9 +92,7 @@ export default {
     const deleteValue = index => {
       form.curriculumList.splice(index, 1);
     };
-    const submit = () => {
-      console.log(form);
-    };
+    const submit = () => {};
 
     return {
       titleValue,

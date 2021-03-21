@@ -103,7 +103,6 @@ export default {
     let checkBoxPicker = reactive([]);
 
     const setCheckbox = (value: any) => {
-      console.log('checkBoxPicker', value);
 
       return emit('setCheckbox', value);
     };

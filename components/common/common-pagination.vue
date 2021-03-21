@@ -30,7 +30,7 @@
 import { reactive } from '@nuxtjs/composition-api';
 
 export default {
-  name: 'common-pagination ',
+  name: 'common-pagination',
   props: {
     page: {
       type: Number,
@@ -47,7 +47,6 @@ export default {
       activePageId.page = Number(e.target.innerHTML.trim() - 1);
     };
     const pageIncrease = () => {
-      console.log(activePageId.page + 1);
       if (activePageId.page + 1 < props.totalPage) activePageId.page++;
     };
     const pageDecrease = () => {
