@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div class="checkboxTitle">{{ headerTitle }}</div>
+    <div
+      class="checkboxTitle"
+      style="margin-bottom:10px"
+      v-if="headerTitle.length !== 0"
+    >
+      {{ headerTitle }}
+    </div>
     <div class="common_checkbox_content" :class="[column ? 'column' : '']">
       <div v-for="(items, index) in checkBoxArray" :key="index">
         <label
@@ -69,7 +75,14 @@ export default {
   },
   setup(props, { emit }) {
     let checkBoxPicker = reactive([]);
+
+    props.checkBoxArray.forEach(v => {
+      if (v.check) checkBoxPicker.push(v.id);
+    });
+    console.log(checkBoxPicker);
+
     const setCheckbox = value => {
+      console.log(value);
       return emit('setCheckbox', value);
     };
 
@@ -88,7 +101,6 @@ export default {
 .common_checkbox_content {
   display: flex;
   justify-content: flex-start;
-  margin-top: 10px;
 
   &.column {
     flex-direction: column;

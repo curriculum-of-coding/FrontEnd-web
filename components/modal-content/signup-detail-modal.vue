@@ -41,12 +41,14 @@
           :defalutValidationText="'8자 이상 , 영문 , 숫자'"
         ></customInput>
       </div>
-      <customSelectBox
-        :selectLabelID="'비밀번호 찾기 질문'"
-        :select-options="passwordSelect"
-        v-model="formData.PWD_QUEST_TYPE"
-        @setSelectPW="getPWSelect"
-      ></customSelectBox>
+      <div class="input_area">
+        <customSelectBox
+          :selectLabelID="'비밀번호 찾기 질문'"
+          :select-options="passwordSelect"
+          v-model="formData.PWD_QUEST_TYPE"
+          @setSelectPW="getPWSelect"
+        ></customSelectBox>
+      </div>
       <div class="input_area">
         <customInput
           :inputLabelID="'비밀번호 찾기 답변'"

@@ -17,6 +17,7 @@
         {{ loginStatus.userInfo.nickname }}
       </span>
       <div @click="logout">로그아웃</div>
+      <div @click="mypage">마이페이지</div>
     </div>
   </div>
 </template>
@@ -36,13 +37,17 @@ export default {
       },
     },
   },
-  setup(props: any, { emit }: any) {
-    const { store } = useContext();
+  setup(props: any, { emit, root }: any) {
+    const { store, route } = useContext();
+
     const menuTitle = computed(() => store.state.menuTitle.menuTitle);
     const loginStatus = computed(() => store.state.loginSuccess);
     watchEffect(() => {
       loginStatus;
     });
+    const mypage = () => {
+      root.$router.push('user/mypage');
+    };
     const logout = () => {
       store.dispatch('notificationModal/setNotificationOption', {
         notification: true,
@@ -59,6 +64,7 @@ export default {
       modalOpen,
       loginStatus,
       logout,
+      mypage,
     };
   },
 };

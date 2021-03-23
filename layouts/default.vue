@@ -98,11 +98,11 @@ export default {
       },
     );
     onMounted(() => {
-      watchEffect(() => {
-        route.value.path.includes('user')
-          ? (document.body.style.background = '#354151')
-          : (document.body.style.background = '#ffffff');
-      });
+      // watchEffect(() => {
+      //   route.value.path.includes('user')
+      //     ? (document.body.style.background = '#354151')
+      //     : (document.body.style.background = '#ffffff');
+      // });
     });
     return {
       route,

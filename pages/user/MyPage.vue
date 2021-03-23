@@ -2,7 +2,7 @@
   <div class="mypage">
     <div class="user_info">
       <span>
-        myaccount@gmail.com
+        {{ loginStatus.userInfo.email }}
       </span>
       <div class="user_options">
         <div>비밀번호 재설정</div>
@@ -13,11 +13,10 @@
     <div class="user_subinformation">
       <div class="user_profile"></div>
       <div class="user_name">
-        이종훈님 안녕하세요
+        {{ loginStatus.userInfo.nickname }}
       </div>
       <div class="interast">
         <span>관심분야</span>
-
         <customCheckBox
           @setCheckbox="getCheckbox"
           :checkBoxArray="checkBoxItems"
@@ -37,12 +36,12 @@
       <tab-menu :tabItems="tabItem" :main-page-show="false" />
     </div>
     <SearchInput :inputWidth="'963px'" />
-    <div class="list_area">
+    <!-- <div class="list_area">
       <normalList
         :bntDisableCheck="false"
         :tableListItems="listItems.front.list"
       ></normalList>
-    </div>
+    </div> -->
     <div class="pagenation_area">
       <commonCutsomPaging :page="5" :total-page="5"> </commonCutsomPaging>
     </div>
@@ -51,80 +50,117 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AccountSyncCard from '../components/cards/AccountSyncCard.vue';
-import SearchInput from '../components/inputs/SearchInput.vue';
+import AccountSyncCard from '../../components/cards/AccountSyncCard.vue';
+import SearchInput from '../../components/inputs/SearchInput.vue';
 import tabMenu from '@/components/tab-menu.vue';
 import normalList from '@/components/board/normal-board/normal-board-list.vue';
 import commonCutsomPaging from '~/components/common/common-pagination.vue';
 import customCheckBox from '@/components/common/common-checkbox.vue';
 
-import { reactive } from '@nuxtjs/composition-api';
+import {
+  reactive,
+  computed,
+  useContext,
+  onMounted,
+  watchEffect,
+} from '@nuxtjs/composition-api';
 
 export default Vue.extend({
   components: {
     AccountSyncCard,
     SearchInput,
     tabMenu,
-    normalList,
+    // normalList,
     customCheckBox,
     commonCutsomPaging,
   },
   setup() {
-    const userInformation = reactive({
-      id: 'dd',
-    });
-    const checkBoxItems = [
-      { id: '프론트앤드', check: false },
-      { id: '백앤드', check: false },
+    const { store } = useContext();
+    const loginStatus = computed(() => store.state.loginSuccess);
+
+    const userInformation = reactive(store.state.loginSuccess.userInfo);
+
+    const checkBoxItems = reactive([
+      { id: '프론트앤드', check: true },
+      { id: '백앤드', check: true },
       { id: '데브옵스', check: false },
-    ];
-    const listItems = reactive({
-      front: {
-        title: 'Front',
-        list: [
-          {
-            FFB_ID: 1,
-            categories: '자유게시판',
-            TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
-            CONTENT: '내용입니다',
-            REG_USER_ID: '14',
-            REG_DATE: '20210118',
-          },
-          {
-            FFB_ID: 2,
-            categories: '자유게시판',
-            TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
-            CONTENT: '내용입니다',
-            REG_USER_ID: '14',
-            REG_DATE: '20210118',
-          },
-          {
-            FFB_ID: 3,
-            categories: '자유게시판',
-            TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
-            CONTENT: '내용입니다',
-            REG_USER_ID: '14',
-            REG_DATE: '20210118',
-          },
-          {
-            FFB_ID: 4,
-            categories: '자유게시판',
-            TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
-            CONTENT: '내용입니다',
-            REG_USER_ID: '14',
-            REG_DATE: '20210118',
-          },
-          {
-            FFB_ID: 5,
-            categories: '자유게시판',
-            TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
-            CONTENT: '내용입니다',
-            REG_USER_ID: '14',
-            REG_DATE: '20210118',
-          },
-        ],
-      },
-    });
+    ]);
+    const getCheckbox = (value: any) => {
+      value.includes('프론트앤드')
+        ? (userInformation.interests[0].front = 'Y')
+        : (userInformation.interests[0].front = 'N');
+      value.includes('백앤드')
+        ? (userInformation.interests[0].back = 'Y')
+        : (userInformation.interests[0].back = 'N');
+      value.includes('데브옵스')
+        ? (userInformation.interests[0].devops = 'Y')
+        : (userInformation.interests[0].devops = 'N');
+      console.log(userInformation.interests[0], value);
+    };
+
+    const getUserInter = () => {
+      loginStatus.value.userInfo.interests[0].front === 'Y'
+        ? (checkBoxItems[0].check = true)
+        : (checkBoxItems[0].check = false);
+      loginStatus.value.userInfo.interests[0].back === 'Y'
+        ? (checkBoxItems[1].check = true)
+        : (checkBoxItems[1].check = false);
+      loginStatus.value.userInfo.interests[0].devops === 'Y'
+        ? (checkBoxItems[2].check = true)
+        : (checkBoxItems[2].check = false);
+      console.log(checkBoxItems);
+    };
+    getUserInter();
+    const changeUserInformation = () => {
+      
+    };
+    // const listItems = reactive({
+    //   front: {
+    //     title: 'Front',
+    //     list: [
+    //       {
+    //         FFB_ID: 1,
+    //         categories: '자유게시판',
+    //         TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
+    //         CONTENT: '내용입니다',
+    //         REG_USER_ID: '14',
+    //         REG_DATE: '20210118',
+    //       },
+    //       {
+    //         FFB_ID: 2,
+    //         categories: '자유게시판',
+    //         TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
+    //         CONTENT: '내용입니다',
+    //         REG_USER_ID: '14',
+    //         REG_DATE: '20210118',
+    //       },
+    //       {
+    //         FFB_ID: 3,
+    //         categories: '자유게시판',
+    //         TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
+    //         CONTENT: '내용입니다',
+    //         REG_USER_ID: '14',
+    //         REG_DATE: '20210118',
+    //       },
+    //       {
+    //         FFB_ID: 4,
+    //         categories: '자유게시판',
+    //         TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
+    //         CONTENT: '내용입니다',
+    //         REG_USER_ID: '14',
+    //         REG_DATE: '20210118',
+    //       },
+    //       {
+    //         FFB_ID: 5,
+    //         categories: '자유게시판',
+    //         TITLE: '다들 이런 경우엔 어떻게 해결하시나요.',
+    //         CONTENT: '내용입니다',
+    //         REG_USER_ID: '14',
+    //         REG_DATE: '20210118',
+    //       },
+    //     ],
+    //   },
+    // });
     const tabItem = reactive([
       {
         name: '내가작성한글',
@@ -133,7 +169,15 @@ export default Vue.extend({
       },
       { name: '내가 좋아하는 글', active: false, link: '' },
     ]);
-    return { tabItem, listItems, userInformation, checkBoxItems };
+    return {
+      tabItem,
+      getUserInter,
+      userInformation,
+      checkBoxItems,
+      loginStatus,
+      getCheckbox,
+      changeUserInformation,
+    };
   },
 });
 </script>
