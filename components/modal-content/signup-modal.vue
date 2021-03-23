@@ -27,13 +27,9 @@
         <span class="text">
           sns 계정이 없으신가요?
         </span>
-        <nuxt-link
-          :to="'user/signup'"
-          @click.native="closeModal"
-          class="sign_btn"
-        >
+        <button @click="openSignupDetail" class="sign_btn">
           이메일 회원가입
-        </nuxt-link>
+        </button>
       </div>
     </div>
   </div>
@@ -47,8 +43,11 @@ export default {
     const closeModal = () => {
       return emit('closeModal');
     };
+    const openSignupDetail = () => {
+      return emit('openSignupDetail');
+    };
 
-    return { closeModal };
+    return { closeModal, openSignupDetail };
   },
 };
 </script>

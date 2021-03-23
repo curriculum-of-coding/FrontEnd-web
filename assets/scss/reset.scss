@@ -4,6 +4,20 @@
   margin: 0;
   padding: 0;
   font-weight: 800;
+  &::-webkit-scrollbar {
+  width: 6px;
+}
+&::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+&::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+&::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button, span, em {

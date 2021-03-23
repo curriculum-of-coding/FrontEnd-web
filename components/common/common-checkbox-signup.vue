@@ -2,7 +2,7 @@
   <div>
     <div class="checkboxTitle">{{ headerTitle }}</div>
     <div class="common_checkbox_content" :class="[column ? 'column' : '']">
-      <label class="checkbox" style="--color: #FE3C53;">
+      <!-- <label class="checkbox" style="--color: #FE3C53;">
         <span class="checkbox_input">
           <input type="checkbox" />
           <span class="checkbox_control">
@@ -21,10 +21,10 @@
             </svg>
           </span>
         </span>
-        <span class="checkbox_value">
+        <span class="checkbox_value" @click="checkAllValue(checkBoxPicker)">
           모두 동의
         </span>
-      </label>
+      </label> -->
       <div
         v-for="(items, index) in checkBoxArray"
         :key="index"
@@ -59,7 +59,7 @@
             <span>{{ items.id }}</span>
           </span>
         </label>
-        <span @click="openModal(items.contentType)">
+        <span @click="openModal(items.contentType)" class="more_infor">
           {{ items.contentType }}</span
         >
       </div>
@@ -85,7 +85,6 @@ export default {
     checkBoxArray: {
       type: Array,
     },
-
     checkBoxId: {
       type: Object,
     },
@@ -101,11 +100,13 @@ export default {
   setup(props: any, { emit }: any) {
     let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
-    const checkBoxPicker = reactive([]);
+    let checkBoxPicker = reactive([]);
 
     const setCheckbox = (value: any) => {
+
       return emit('setCheckbox', value);
     };
+
     const openModal = (value: any) => {
       modalHeader.header = value;
       openModalCheck.value = !openModalCheck.value;
@@ -214,5 +215,10 @@ export default {
 .checkbox_flex {
   display: flex;
   justify-content: space-between;
+  .more_infor {
+    text-decoration: underline;
+    font: normal normal normal 16px/18px NanumSquareRound;
+    color: #b3b3b3;
+  }
 }
 </style>

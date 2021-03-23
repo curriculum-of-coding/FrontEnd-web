@@ -15,14 +15,21 @@
         </header-menu>
       </div>
       <div class="content" data-app="true">
+        <v-snackbar :timeout="3000" :value="true" centered top v-if="status">
+          회원가입이 완료 되었습니다. 로그인 해주세요.
+        </v-snackbar>
         <Nuxt></Nuxt>
       </div>
       <commonAllUseModal
         @setModal="getModalStatus"
+        @openSignupDetail="openSignupDetail"
+        @closeSignupDetailModal="closeSignupDetailModal"
         :setModal="openModalCheck.value"
+        :singupDetail="singupDetail"
         :modal-content="modalContent.content"
         :modal-header="modalHeader.header"
       ></commonAllUseModal>
+      <commonNotificationModal></commonNotificationModal>
     </div>
   </div>
 </template>
@@ -31,12 +38,17 @@
 import headerMenu from '~/components/ui/top-header.vue';
 import sideMenu from '~/components/ui/side-menu.vue';
 import commonAllUseModal from '~/components/common/common-vuetify-modal-all-use.vue';
+import commonNotificationModal from '~/components/common/common-notification-modal.vue';
+
 import {
   useContext,
   computed,
   onMounted,
   watchEffect,
+  watch,
   reactive,
+  ref,
+  Ref,
 } from '@nuxtjs/composition-api';
 
 export default {
@@ -45,6 +57,9 @@ export default {
     let openModalCheck: any = reactive({ value: null });
     let modalHeader = reactive({ header: '' });
     let modalContent = reactive({ content: '' });
+    const { store } = useContext();
+    let singupDetail: Ref<boolean> = ref(false);
+    let status = computed(() => store.state.signupSuccess.signupStatus);
 
     const openModal = (value: any) => {
       modalContent.content = value;
@@ -53,6 +68,12 @@ export default {
 
     const getModalStatus = (value: any) => {
       openModalCheck.value = value;
+    };
+    const openSignupDetail = () => {
+      singupDetail.value = true;
+    };
+    const closeSignupDetailModal = () => {
+      singupDetail.value = false;
     };
 
     const checkMainPage = computed(() => {
@@ -68,6 +89,14 @@ export default {
         subTitle: '이런 강의는 어떠신가요? 현직자들이 추천하는 커리큘럼입니다.',
       },
     ];
+    watch(
+      () => status,
+      (newVal, oldVal) => {
+        if (newVal != oldVal) {
+          status = newVal;
+        }
+      },
+    );
     onMounted(() => {
       watchEffect(() => {
         route.value.path.includes('user')
@@ -84,12 +113,17 @@ export default {
       modalHeader,
       openModalCheck,
       modalContent,
+      status,
+      openSignupDetail,
+      singupDetail,
+      closeSignupDetailModal,
     };
   },
   components: {
     sideMenu,
     headerMenu,
     commonAllUseModal,
+    commonNotificationModal,
   },
 };
 </script>

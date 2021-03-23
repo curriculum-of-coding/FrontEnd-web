@@ -3,7 +3,7 @@
     <div class="signup">
       <div class="header_area">
         <h1 class="title">계정 정보를 입력해주세요</h1>
-        <font-awesome-icon icon="times" class="close_btn" />
+        <div class="close" @click="closeModal"></div>
       </div>
       <div class="input_area">
         <customInput
@@ -112,7 +112,7 @@ export default {
     customCheckBox,
     customCheckBoxSignUp,
   },
-  setup(props: any, { root }: any) {
+  setup(props: any, { emit }: any) {
     const { $axios, store } = useContext();
     const signupStatus = computed(() => store.state.signupSuccess.signupStatus);
 
@@ -144,11 +144,11 @@ export default {
     });
 
     const formData: signUp = {
-      email: 'whdgns3242@naver.com',
-      password: 'gnswhd3242!',
-      nickname: '닉네임',
+      email: '',
+      password: '',
+      nickname: '',
       PWDQuestType: '당신이 다닌 초등학교의 이름은?',
-      PWDAnswer: '답변',
+      PWDAnswer: '',
       interest: {
         front: 'N',
         back: 'Y',
@@ -164,30 +164,34 @@ export default {
       '중복된 닉네임 입니다 다시 입력해주세요.',
     );
     const sameAsEmailAndNick = (type: string, value: string) => {
-      const params = new URLSearchParams();
-      params.append(`type`, type);
-      params.append(`${type}`, value);
-      $axios
-        .get('http://localhost:3000/api/check', {
-          params: params,
-        })
-        .then(res => {
-          if (res.status === 200 && `${type}` == 'email') {
-            ValidationChecker.email = true;
-          }
-          if (res.status === 200 && `${type}` == 'nickname') {
-            ValidationChecker.nickname = true;
-          }
-        })
-        .catch(err => {
-          if (err.request.status == 400 && `${type}` === 'email') {
-            ValidationChecker.email = false;
-            emailValidationCotent.value = '중복된 이메일입니다.';
-          }
-          if (err.request.status == 400 && `${type}` == 'nickname') {
-            ValidationChecker.nickname = false;
-          }
-        });
+      if (value.length !== 0) {
+        const params = new URLSearchParams();
+        params.append(`type`, type);
+        params.append(`${type}`, value);
+        $axios
+          .get('http://localhost:3000/api/check', {
+            params: params,
+          })
+          .then(res => {
+            if (res.status === 200 && `${type}` == 'email') {
+              ValidationChecker.email = true;
+            }
+            if (res.status === 200 && `${type}` == 'nickname') {
+              ValidationChecker.nickname = true;
+            }
+          })
+          .catch(err => {
+            if (err.request.status == 400 && `${type}` === 'email') {
+              ValidationChecker.email = false;
+              emailValidationCotent.value = '중복된 이메일입니다.';
+            }
+            if (err.request.status == 400 && `${type}` == 'nickname') {
+              ValidationChecker.nickname = false;
+            }
+          });
+      } else {
+        nicknameValidationCotent.value = '';
+      }
     };
     const getEmail = (value: string) => {
       formData.email = value;
@@ -214,7 +218,11 @@ export default {
 
     const onSubmit = () => {
       if (!formData.TOS || !formData.PP) {
-        alert('필수항목');
+        store.dispatch('notificationModal/setNotificationOption', {
+          notification: true,
+          notificationCode: 0,
+          notificationContent: '필수 항목을 선택해주세요.',
+        });
       } else {
         if (
           ValidationChecker.email &&
@@ -224,12 +232,23 @@ export default {
         ) {
           $axios
             .post('api/register', formData)
-            .then(res => {
+            .then(() => {
               store.dispatch('signupSuccess/setSignupStatus', true);
-              root.$router.push('/');
+              store.dispatch('signupSuccess/setSignupEmail', formData.email);
+              store.dispatch('notificationModal/setNotificationOption', {
+                notification: true,
+                notificationCode: 1,
+                notificationContent: '회원가입을 축하합니다.',
+              });
+              emit('closeModalSignupDetail');
             })
-            .catch(() => {
-              alert('다시한번 확인해주세요.실패했습니다.');
+            .catch(err => {
+              if (err.message.includes('400'))
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 0,
+                  notificationContent: '다시 한번 시도해주세요',
+                });
             });
         }
       }
@@ -255,6 +274,9 @@ export default {
         ? (formData.PP = 'Y')
         : (formData.PP = 'N');
     };
+    const closeModal = () => {
+      return emit('closeModalSignupDetail');
+    };
     return {
       getPWSelect,
       checkBoxItems,
@@ -274,6 +296,7 @@ export default {
       ValidationChecker,
       nicknameValidationCotent,
       signupStatus,
+      closeModal,
     };
   },
 };
@@ -282,14 +305,41 @@ export default {
 <style lang="scss" scoped>
 .signup {
   padding: 34px 40px;
-  width: 440px;
   background: #fff;
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  width: 100%;
   border-radius: 20px;
-  transform: translate(-50%, -50%);
+  height: auto;
+  .close {
+    width: 30px;
+    color: #b3b3b3;
+    height: 30px;
+    cursor: pointer;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 40px;
+      margin-top: 1.25em;
+      margin-left: 4em;
+      height: 17px;
+      border: solid #b3b3b3;
+      border-width: 0 2px 0px 0;
+      transform: rotate(45deg);
+    }
 
+    &:after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 40px;
+      margin-top: 1.25em;
+      margin-left: 4em;
+      height: 17px;
+      border: solid #b3b3b3;
+      border-width: 0 2px 0px 0;
+      transform: rotate(-45deg);
+    }
+  }
   .header_area {
     display: flex;
     justify-content: space-between;

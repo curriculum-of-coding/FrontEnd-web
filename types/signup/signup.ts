@@ -1,15 +1,16 @@
-type signup = {
-  USER_ID: number,
-  EMAIL: string,
-  USER_PWD: string,
-  REG_DATE: string,
-  PWD_QUEST_TYPE: number,
-  PWD_ANSWER: string,
-  INTEREST_FRONT: Boolean,
-  INTEREST_BACK: Boolean,
-  INTEREST_DEVOPS: Boolean,
-  TOS_YN: Boolean,
-  PP_YN: Boolean,
+type signUp = {
+  email: string,
+  password: string,
+  nickname: string,
+  PWDQuestType: string,
+  PWDAnswer: string,
+  interest: {
+    front: string,
+    back: string,
+    devops: string,
+  }
+  TOS: string,
+  PP: string,
 }
 
-export default signup
+export default signUp

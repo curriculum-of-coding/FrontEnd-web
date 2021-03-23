@@ -22,18 +22,15 @@ export default {
     commonInput,
     tiny,
   },
-  setup(emit) {
+  setup() {
     const contentValue = reactive({
       value: '',
     });
-    const dd = value => {
-      console.log('value', value);
-    };
     const getValue = value => {
       contentValue.value = value;
     };
 
-    return { getValue, contentValue, dd };
+    return { getValue, contentValue };
   },
   name: 'curriculum-comment-form',
 };

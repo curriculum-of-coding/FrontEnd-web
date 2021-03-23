@@ -88,6 +88,7 @@ export default {
 .common_checkbox_content {
   display: flex;
   justify-content: flex-start;
+  margin-top: 10px;
 
   &.column {
     flex-direction: column;

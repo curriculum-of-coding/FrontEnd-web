@@ -3,24 +3,34 @@
     <v-dialog
       v-model="setModal"
       persistent
-      width="440px"
+      width="500px"
+      height="100%"
       class="modal"
       content-class="modal_round"
     >
       <v-card>
         <signUpModal
           @closeModal="close"
-          v-if="modalContent === 'signup'"
+          v-if="modalContent === 'signup' && !singupDetail"
+          @openSignupDetail="openSignupDetail"
         ></signUpModal>
-        <div v-if="modalContent === 'login'">
-          <loginModal @closeModal="close"></loginModal>
-        </div>
-        <div v-if="modalContent === 'passwordChange'">
-          <emailCheckModal
-            :headerTitle="'비밀번호 찾기'"
-            @closeModal="close"
-          ></emailCheckModal>
-        </div>
+        <loginModal
+          @openChangePassword="openPasswordChange"
+          @closeModal="close"
+          v-if="modalContent === 'login' && !singupDetail && !openPasswordModal"
+          @openSignupDetail="openSignupDetail"
+        ></loginModal>
+        <emailCheckModal
+          v-if="openPasswordModal"
+          :headerTitle="'비밀번호 찾기'"
+          @closeModal="close"
+        ></emailCheckModal>
+        <signupDetailModal
+          v-if="singupDetail"
+          :headerTitle="'회원가입'"
+          @closeModal="close"
+          @closeModalSignupDetail="closeSignupDetailModal"
+        ></signupDetailModal>
       </v-card>
     </v-dialog>
   </v-row>
@@ -30,8 +40,9 @@
 import signUpModal from '@/components/modal-content/signup-modal.vue';
 import loginModal from '@/components/modal-content/login-modal.vue';
 import emailCheckModal from '@/components/modal-content/email-check-modal.vue';
+import signupDetailModal from '@/components/modal-content/signup-detail-modal.vue';
 
-import { reactive } from '@nuxtjs/composition-api';
+import { reactive, ref } from '@nuxtjs/composition-api';
 
 export default {
   name: 'common-vuetify-modal',
@@ -45,18 +56,43 @@ export default {
     modalContent: {
       default: '',
     },
+    singupDetail: {
+      default: '',
+    },
   },
   components: {
     signUpModal,
     loginModal,
     emailCheckModal,
+    signupDetailModal,
   },
   setup(props, { emit }) {
     let openModalCheck = reactive({ props });
-    const close = () => {
-      return emit('setModal', openModalCheck.setModal);
+    const openPasswordModal = ref(false);
+
+    const openPasswordChange = () => {
+      openPasswordModal.value = !openPasswordModal.value;
     };
-    return { close, openModalCheck };
+    const close = value => {
+      if (value == 'passwordChange') {
+        openPasswordModal.value = false;
+        emit('setModal', openModalCheck.setModal);
+      } else return emit('setModal', openModalCheck.setModal);
+    };
+    const openSignupDetail = () => {
+      return emit('openSignupDetail', 'signupDetail');
+    };
+    const closeSignupDetailModal = () => {
+      return emit('closeSignupDetailModal');
+    };
+    return {
+      close,
+      openModalCheck,
+      openSignupDetail,
+      closeSignupDetailModal,
+      openPasswordChange,
+      openPasswordModal,
+    };
   },
 };
 </script>

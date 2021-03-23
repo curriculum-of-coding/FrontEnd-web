@@ -12,12 +12,16 @@
         :inputWidth="'100%'"
         :inputLabelID="'이메일 아이디'"
         :inputBorderRadius="'50px'"
+        @SetInputValue="getEmail"
         :placeholder="'예) email@email.co.kr'"
       ></commonInput>
       <commonInput
         :inputWidth="'100%'"
         :inputLabelID="'비밀번호'"
-        :validation="false"
+        :inputType="`password`"
+        :validation="true"
+        :signupPageNopadding="true"
+        @SetInputValue="getPassword"
         :inputBorderRadius="'50px'"
       ></commonInput>
       <customCheckBox
@@ -25,7 +29,7 @@
         :marginRight="'38px'"
         @setCheckbox="getCheckbox"
       ></customCheckBox>
-      <button class="login_btn">
+      <button class="login_btn" @click="login">
         로그인
       </button>
       <div class="login_easy">
@@ -45,23 +49,31 @@
         </button>
       </div>
       <div class="login_sign_password">
-        <nuxt-link
-          :to="'user/signup'"
-          @click.native="closeModal"
-          class="sign_btn"
-        >
-          회원가입하기
-        </nuxt-link>
-        <span>비밀번호 찾기</span>
+        <span @click="openSignupDetail" class="sign_btn">회원가입하기</span>
+        <span @click="openChangePassword">비밀번호 찾기</span>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import commonInput from '@/components/common/common-input.vue';
-import { reactive } from '@nuxtjs/composition-api';
+import {
+  reactive,
+  useContext,
+  computed,
+  watchEffect,
+} from '@nuxtjs/composition-api';
 import customCheckBox from '@/components/common/common-checkbox.vue';
+import { NuxtAxiosInstance } from '@nuxtjs/axios';
+
+export function useAxios(): NuxtAxiosInstance {
+  const { $axios } = useContext();
+  if (!$axios) {
+    throw new Error('nuxt axios is not defined!');
+  }
+  return $axios;
+}
 export default {
   name: 'login-modal',
   components: {
@@ -69,10 +81,24 @@ export default {
     customCheckBox,
   },
   setup(props, { emit }) {
+    const { $axios, store } = useContext();
+    const signupStatus = computed(() => store.state.signupSuccess);
+    const loginStatus = computed(() => store.state.loginSuccess);
+    watchEffect(() => {
+      signupStatus;
+    });
     const closeModal = () => {
       return emit('closeModal');
     };
+    const openChangePassword = () => {
+      return emit('openChangePassword');
+    };
     const arrPicker = reactive([]);
+    const formData = reactive({
+      email: '',
+      password: '',
+      platform: 'basic',
+    });
     const loginOption = reactive({
       autoLogin: false,
       idSave: false,
@@ -81,13 +107,78 @@ export default {
       { id: '아이디저장', check: true },
       { id: '자동로그인', check: false },
     ];
-    const getCheckbox = value => {
+    const getCheckbox = (value: string) => {
       loginOption.autoLogin = !!value.includes('자동로그인');
       loginOption.idSave = !!value.includes('아이디저장');
-      console.log(loginOption.autoLogin, loginOption.idSave);
     };
-
-    return { closeModal, checkBoxItems, getCheckbox, arrPicker, loginOption };
+    const openSignupDetail = () => {
+      return emit('openSignupDetail');
+    };
+    const getEmail = (value: string) => {
+      formData.email = value;
+    };
+    const getPassword = (value: string) => {
+      formData.password = value;
+    };
+    const login = () => {
+      if (formData.password.length === 0 || formData.email.length === 0) {
+        store.dispatch('notificationModal/setNotificationOption', {
+          notification: true,
+          notificationCode: 0,
+          notificationContent:
+            '이메일 또는 비밀번호가 공백입니다. 다시한번 확인해주세요',
+        });
+      } else {
+        $axios
+          .$post('api/login', formData)
+          .then(res => {
+            store.dispatch('loginSuccess/setLoginToken', res.data.token);
+            $axios
+              .$get('api/user', {
+                params: {
+                  email: formData.email,
+                },
+              })
+              .then(res => {
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 1,
+                  notificationContent: '로그인이 성공했습니다! ',
+                });
+                store.dispatch('loginSuccess/setUserInfo', res.data);
+                closeModal();
+              })
+              .catch(() => {
+                store.dispatch('notificationModal/setNotificationOption', {
+                  notification: true,
+                  notificationCode: 0,
+                  notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+                });
+              });
+          })
+          .catch(() => {
+            store.dispatch('notificationModal/setNotificationOption', {
+              notification: true,
+              notificationCode: 0,
+              notificationContent: '오류입니다. 다시 한번 시도해주세요.',
+            });
+          });
+      }
+    };
+    return {
+      closeModal,
+      checkBoxItems,
+      getCheckbox,
+      arrPicker,
+      loginOption,
+      openSignupDetail,
+      login,
+      getEmail,
+      getPassword,
+      signupStatus,
+      loginStatus,
+      openChangePassword,
+    };
   },
 };
 </script>
@@ -204,6 +295,9 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 47.5px;
+      .sign_btn {
+        cursor: pointer;
+      }
       a,
       span {
         font-size: 14px;
