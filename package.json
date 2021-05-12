@@ -31,7 +31,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.6",
-    "swiper": "^5.4.5",
+    "swiper": "^6.5.1",
     "vue-awesome-swiper": "^4.1.1",
     "vue-lodash": "^2.1.2",
     "yarn": "^1.22.10",
